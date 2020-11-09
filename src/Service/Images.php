@@ -86,7 +86,7 @@ class Images
         return $this->storage->put($this->config->imageStorage(), $filename, $file->getStream())->getAddress();
     }
 
-    protected function createName(UploadedFileInterface $file, string $postfix = ''): string
+    private function createName(UploadedFileInterface $file, string $postfix = ''): string
     {
         return sprintf(
             '%s/%s-%s.%s.%s',
