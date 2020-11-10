@@ -45,10 +45,10 @@ class MetaController
         try {
             $this->pieces->saveMeta(
                 $meta,
-                (string)$request->title,
-                (string)$request->description,
-                (string)$request->keywords,
-                (string)$request->html
+                (string)$request->data->title,
+                (string)$request->data->description,
+                (string)$request->data->keywords,
+                (string)$request->data->html
             );
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Meta update failed', compact('exception'));
