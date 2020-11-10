@@ -79,7 +79,7 @@ class MetaController
 
         return [
             'status' => 200,
-            'meta'   => $meta->pack()
+            'data'   => $meta->pack()
         ];
     }
 }

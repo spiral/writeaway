@@ -53,11 +53,14 @@ class Meta
     public function pack(): array
     {
         return [
-            'id'          => $this->id,
-            'html'        => $this->html,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'keywords'    => $this->keywords,
+            'id'   => $this->id,
+            'code' => $this->code,
+            'data' => [
+                'html'        => $this->html,
+                'title'       => $this->title,
+                'description' => $this->description,
+                'keywords'    => $this->keywords,
+            ],
         ];
     }
 }
