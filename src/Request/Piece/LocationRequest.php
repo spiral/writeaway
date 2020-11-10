@@ -2,24 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Request;
+namespace Spiral\WriteAway\Request\Piece;
 
 use Spiral\Filters\Filter;
 
 /**
- * @property-read string          $namespace
- * @property-read string          $view
- * @property-read string          $code
- * @property-read MetaDataRequest $data
+ * @property-read string $namespace
+ * @property-read string $view
  */
-class MetaRequest extends Filter
+class LocationRequest extends Filter
 {
     protected const SCHEMA = [
-        // metadata id
         'namespace' => 'data:namespace',
         'view'      => 'data:view',
-        'code'      => 'data:code',
-        'data'      => MetaDataRequest::class,
     ];
 
     protected const VALIDATES = [
@@ -28,10 +23,6 @@ class MetaRequest extends Filter
             ['is_string', 'error' => '[[Should be a string.]]']
         ],
         'view'      => [
-            'notEmpty',
-            ['is_string', 'error' => '[[Should be a string.]]']
-        ],
-        'code'      => [
             'notEmpty',
             ['is_string', 'error' => '[[Should be a string.]]']
         ]

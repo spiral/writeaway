@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Keeper\Controller;
+namespace Spiral\WriteAway\Controller;
 
 use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Router\Annotation\Route;
 use Spiral\Translator\Traits\TranslatorTrait;
-use Spiral\WriteAway\Database\Piece;
-use Spiral\WriteAway\Repository\PieceRepository;
-use Spiral\WriteAway\Request\PieceRequest;
+use Spiral\WriteAway\Request\Piece\LocationRequest;
+use Spiral\WriteAway\Request\Piece\PieceRequest;
 use Spiral\WriteAway\Service\Pieces;
 
 class PieceController
@@ -19,31 +18,23 @@ class PieceController
     use TranslatorTrait;
 
     private Pieces $pieces;
-    private PieceRepository $pieceRepository;
 
-    public function __construct(Pieces $pieces, PieceRepository $pieceRepository)
+    public function __construct(Pieces $pieces)
     {
         $this->pieces = $pieces;
-        $this->pieceRepository = $pieceRepository;
     }
 
     /**
      * @Route(name="writeAway:pieces:save", group="writeAway", methods="POST", route="pieces/save")
-     * @param PieceRequest $request
+     * @param PieceRequest    $pieceRequest
+     * @param LocationRequest $locationRequest
      * @return array
      */
-    public function save(PieceRequest $request): array
+    public function save(PieceRequest $pieceRequest, LocationRequest $locationRequest): array
     {
-        $piece = $this->pieceRepository->findByCode($request->code);
-        if (!$piece instanceof Piece) {
-            return [
-                'status' => 400,
-                'error'  => $this->say('Unable to find requested piece.')
-            ];
-        }
-
+        $piece = $this->pieces->get($pieceRequest->id, $pieceRequest->type);
         try {
-            $this->pieces->savePiece($piece, $request->data->html);
+            $this->pieces->save($piece, $pieceRequest->data, $locationRequest->namespace, $locationRequest->view);
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Piece update failed', compact('exception'));
             throw new ServerErrorException('Piece update failed', $exception);
@@ -51,7 +42,7 @@ class PieceController
 
         return [
             'status' => 200,
-            'id'     => $piece->id,
+            'data'   => $piece->pack()
         ];
     }
 
@@ -62,17 +53,11 @@ class PieceController
      */
     public function get(PieceRequest $request): array
     {
-        $piece = $this->pieceRepository->findByCode($request->code);
-        if (!$piece instanceof Piece) {
-            return [
-                'status' => 400,
-                'error'  => $this->say('Unable to find requested piece.')
-            ];
-        }
+        $piece = $this->pieces->get($request->id, $request->type);
 
         return [
             'status' => 200,
-            'piece'  => $piece->pack()
+            'data'   => $piece->pack()
         ];
     }
 }

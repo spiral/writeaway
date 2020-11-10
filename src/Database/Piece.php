@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
 use Spiral\WriteAway\Repository\PieceRepository;
+use Spiral\WriteAway\Typecast\Json;
 
 /**
  * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)
@@ -20,25 +21,28 @@ class Piece
     use Timestamps;
 
     /**
-     * @Cycle\Column(type="primary")
+     * @Cycle\Column(type="string", primary=true)
      */
-    public ?int $id = null;
+    public string $id;
     /**
-     * @Cycle\Column(type="string", default="")
+     * @Cycle\Column(type="string")
      */
-    public string $code;
+    public string $type;
     /**
-     * @Cycle\Column(type="text", default="")
+     * @Cycle\Column(type="longText", typecast=Json::class)
      */
-    public string $content;
+    public Json $data;
     /**
      * @Cycle\Relation\HasMany(target=Piece\Location::class)
      * @var Collection|Piece\Location
      */
     public Collection $locations;
 
-    public function __construct()
+    public function __construct(string $id, string $type)
     {
+        $this->id = $id;
+        $this->type = $type;
+        $this->data = new Json();
         $this->locations = new ArrayCollection();
     }
 
@@ -46,15 +50,14 @@ class Piece
     {
         return [
             'id'   => $this->id,
-            'code' => $this->code,
-            'html' => (string)$this->content,
+            'data' => $this->data->toArray()
         ];
     }
 
     public function hasLocation(string $namespace, string $view): bool
     {
         foreach ($this->locations as $location) {
-            if ($location->view === $view && $location->namespace === $namespace) {
+            if ($location->namespace === $namespace && $location->view === $view) {
                 return true;
             }
         }
