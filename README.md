@@ -6,10 +6,9 @@ License:
 MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).
 
 
-## API
+## API Endpoints:
+- **GET** or **POST** `writeAway:images:list` to fetch a full list of available images.
 
-Endpoints are:
-- **GET** or **POST** `writeAway:images:list` to fetch a full list of available images
 Example response:
 ```json
 {
@@ -36,9 +35,12 @@ Possible image fields:
 | height | number | Optional | Image height to display |
 | width | number | Optional | Image width to display |
 
-- **POST** `writeAway:images:upload` to upload an image file
+- **POST** `writeAway:images:upload` to upload an image file.
+
 Example request:
+
 `image` - FormData file item if thats a single file
+
 Example response: 
 ```json
 {
@@ -51,9 +53,10 @@ Example response:
   ]
 }
 ```
-For possible image fields see the previous endpoint.
+> For possible image fields see the previous endpoint.
 
 - **POST** or **DELETE** `writeAway:images:delete` to delete a particular image
+
 Example request:
 ```json
 {
