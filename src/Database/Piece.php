@@ -7,11 +7,12 @@ namespace Spiral\WriteAway\Database;
 use Cycle\Annotated\Annotation as Cycle;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
 use Spiral\WriteAway\Repository\PieceRepository;
 
 /**
- * @Cycle\Entity(table="pieces", mapper="App\Mapper\TimestampsMapper", repository=PieceRepository::class)
+ * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)
  * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"code"}, unique=true)})
  */
 class Piece
@@ -27,21 +28,11 @@ class Piece
      */
     public string $code;
     /**
-     * @Cycle\Column(type="text", nullable=true)
+     * @Cycle\Column(type="text", default="")
      */
-    public ?string $content = null;
+    public string $content;
     /**
-     * @Cycle\Relation\HasMany(
-     *     target="App\Database\Spiral\Piece\Location",
-     *     cascade=null,
-     *     nullable=false,
-     *     innerKey="id",
-     *     outerKey="piece_id",
-     *     fkCreate=null,
-     *     fkAction=null,
-     *     indexCreate=null,
-     *     load=null
-     * )
+     * @Cycle\Relation\HasMany(target=Piece\Location::class)
      * @var Collection|Piece\Location
      */
     public Collection $locations;

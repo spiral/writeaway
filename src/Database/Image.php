@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Spiral\WriteAway\Database;
 
 use Cycle\Annotated\Annotation as Cycle;
+use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
 use Spiral\WriteAway\Repository\ImageRepository;
 
 /**
- * @Cycle\Entity(table="images", mapper="App\Mapper\TimestampsMapper", repository=ImageRepository::class)
+ * @Cycle\Entity(table="images", mapper=TimestampsMapper::class, repository=ImageRepository::class)
  */
 class Image
 {

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Spiral\WriteAway\Database;
 
 use Cycle\Annotated\Annotation as Cycle;
+use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
 use Spiral\WriteAway\Repository\MetaRepository;
 
 /**
- * @Cycle\Entity(table="metas", mapper="App\Mapper\TimestampsMapper", repository=MetaRepository::class)
+ * @Cycle\Entity(table="metas", mapper=TimestampsMapper::class, repository=MetaRepository::class)
  * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"namespace", "view", "code"}, unique=true)})
  */
 class Meta
