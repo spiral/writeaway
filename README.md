@@ -124,7 +124,7 @@ Example request:
   }
 }
 ```
-> If no pieces found, a new one wil be created.
+> If no pieces found, a new one wil be created. `id` is a unique value across all pieces.
 
 Example response:
 ```json
