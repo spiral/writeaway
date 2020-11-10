@@ -16,11 +16,11 @@ class Location
      */
     public ?int $id = null;
     /**
-     * @Cycle\Column(type="string(255)", default="")
-     */
-    public string $view;
-    /**
-     * @Cycle\Column(type="string(255)", default="")
+     * @Cycle\Column(type="string(255)")
      */
     public string $namespace;
+    /**
+     * @Cycle\Column(type="string(255)")
+     */
+    public string $view;
 }
