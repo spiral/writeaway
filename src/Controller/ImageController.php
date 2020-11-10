@@ -7,6 +7,7 @@ namespace Spiral\WriteAway\Controller;
 use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Router\Annotation\Route;
+use Spiral\WriteAway\Database\Image;
 use Spiral\WriteAway\Requests\ImageRequest;
 use Spiral\WriteAway\Service\Images;
 
@@ -45,6 +46,37 @@ class ImageController
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Image upload failed', compact('exception'));
             throw new ServerErrorException('Image upload failed', $exception);
+        }
+
+        return [
+            'status' => 200,
+            'image'  => $image->pack(),
+        ];
+    }
+
+    /**
+     * @Route(
+     *     name="writeAway:images:delete",
+     *     group="writeAway",
+     *     methods={"POST", "DELETE"},
+     *     route="images/delete/<image:int>"
+     * )
+     * @param Image $image
+     * @return array
+     */
+    public function delete(Image $image): array
+    {
+        try {
+            $image = $this->images->delete($image);
+        } catch (\Throwable $exception) {
+            $this->getLogger('default')->error(
+                'Image delete failed',
+                [
+                    'exception' => $exception,
+                    'image'     => $image->pack()
+                ]
+            );
+            throw new ServerErrorException('Image delete failed', $exception);
         }
 
         return [

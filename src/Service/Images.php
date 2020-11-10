@@ -72,6 +72,21 @@ class Images
     }
 
     /**
+     * @param Image $image
+     * @throws \Throwable
+     */
+    public function delete(Image $image): void
+    {
+        $this->storage->open($image->original)->delete();
+        $this->storage->open($image->thumbnail)->delete();
+
+        //todo track pieces with images
+
+        $this->transaction->delete($image);
+        $this->transaction->run();
+    }
+
+    /**
      * @param UploadedFileInterface $file
      * @param string                $filename
      * @return string
