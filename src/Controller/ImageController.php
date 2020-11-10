@@ -30,7 +30,7 @@ class ImageController
     {
         return [
             'status' => 200,
-            'images' => $this->images->list(),
+            'data'   => $this->images->list(),
         ];
     }
 
@@ -38,6 +38,7 @@ class ImageController
      * @Route(name="writeAway:images:upload", group="writeAway", methods="POST", route="images/upload")
      * @param ImageRequest $request
      * @return array
+     * @todo multiple image upload
      */
     public function uploadAction(ImageRequest $request): array
     {
@@ -50,7 +51,7 @@ class ImageController
 
         return [
             'status' => 200,
-            'image'  => $image->pack(),
+            'data'   => [$image->pack()],
         ];
     }
 
@@ -79,9 +80,6 @@ class ImageController
             throw new ServerErrorException('Image delete failed', $exception);
         }
 
-        return [
-            'status' => 200,
-            'image'  => $image->pack(),
-        ];
+        return ['status' => 200];
     }
 }

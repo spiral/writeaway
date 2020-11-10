@@ -49,8 +49,8 @@ class Image
     {
         return [
             'id'           => $this->id,
-            'url'          => $this->original,
-            'thumbnailUrl' => $this->thumbnail,
+            'src'          => $this->original,
+            'thumbnailSrc' => $this->thumbnail,
             'width'        => $this->width,
             'height'       => $this->height,
         ];
