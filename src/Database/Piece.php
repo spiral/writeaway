@@ -50,6 +50,7 @@ class Piece
     {
         return [
             'id'   => $this->id,
+            'type' => $this->type,
             'data' => $this->data->toArray()
         ];
     }
