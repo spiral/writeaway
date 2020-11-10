@@ -40,13 +40,6 @@ class ImageController
      */
     public function uploadAction(ImageRequest $request): array
     {
-        if (!$request->isValid()) {
-            return [
-                'status' => 400,
-                'errors' => $request->getErrors(),
-            ];
-        }
-
         try {
             $image = $this->images->upload($request->image);
         } catch (\Throwable $exception) {

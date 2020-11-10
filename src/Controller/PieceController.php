@@ -34,14 +34,6 @@ class PieceController
      */
     public function save(PieceRequest $request): array
     {
-        if (!$request->isValid()) {
-            return [
-                'status' => 400,
-                'errors' => $request->getErrors(),
-                'fields' => $request->getFields()
-            ];
-        }
-
         $piece = $this->pieceRepository->findByCode($request->code);
         if (!$piece instanceof Piece) {
             return [
@@ -70,14 +62,6 @@ class PieceController
      */
     public function get(PieceRequest $request): array
     {
-        if (!$request->isValid()) {
-            return [
-                'status' => 400,
-                'errors' => $request->getErrors(),
-                'fields' => $request->getFields()
-            ];
-        }
-
         $piece = $this->pieceRepository->findByCode($request->code);
         if (!$piece instanceof Piece) {
             return [

@@ -34,14 +34,6 @@ class MetaController
      */
     public function save(MetaRequest $request): array
     {
-        if (!$request->isValid()) {
-            return [
-                'status' => 400,
-                'errors' => $request->getErrors(),
-                'fields' => $request->getFields()
-            ];
-        }
-
         $meta = $this->metaRepository->findMeta($request->namespace, $request->view, $request->code);
         if (!$meta instanceof Meta) {
             return [
@@ -77,14 +69,6 @@ class MetaController
      */
     public function get(MetaRequest $request): array
     {
-        if (!$request->isValid()) {
-            return [
-                'status' => 400,
-                'errors' => $request->getErrors(),
-                'fields' => $request->getFields()
-            ];
-        }
-
         $meta = $this->metaRepository->findMeta($request->namespace, $request->view, $request->code);
         if (!$meta instanceof Meta) {
             return [
