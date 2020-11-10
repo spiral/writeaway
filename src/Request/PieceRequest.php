@@ -7,26 +7,17 @@ namespace Spiral\WriteAway\Request;
 use Spiral\Filters\Filter;
 
 /**
- * @property string $code
+ * @property string           $code
+ * @property PieceDataRequest $data
  */
 class PieceRequest extends Filter
 {
     protected const SCHEMA = [
         'code' => 'data:id',
-        'data' => 'data:data'
+        'data' => PieceDataRequest::class,
     ];
 
     protected const VALIDATES = [
-        'code' => ['notEmpty', 'string'],
-        'data' => [['array', 'if' => ['withAll' => 'data']]],
+        'code' => ['notEmpty', 'string']
     ];
-
-    public function getContent(): string
-    {
-        $data = $this->getField('data');
-        if (!is_array($data)) {
-            return '';
-        }
-        return $data['html'];
-    }
 }

@@ -43,7 +43,7 @@ class PieceController
         }
 
         try {
-            $this->pieces->savePiece($piece, $request->getContent());
+            $this->pieces->savePiece($piece, $request->data->html);
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Piece update failed', compact('exception'));
             throw new ServerErrorException('Piece update failed', $exception);
