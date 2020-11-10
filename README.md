@@ -72,3 +72,81 @@ Example response:
   "status": 200
 }
 ```
+
+### Get Piece
+**GET** or **POST** `writeAway:pieces:get` to fetch a particular piece by its `id` and `type`.
+
+Example request:
+```json
+{
+  "id": "unique-id",
+  "type": "piece-type"
+}
+```
+> If no pieces found, a new one wil be created. `id` is a unique value across all pieces.
+
+Example response:
+```json
+{
+  "status": 200,
+  "data": {
+    "id": "unique-id",
+    "type": "piece-type",
+    "data": {
+      "key": "value",
+      "key...": "value..."
+    }
+  }
+}
+```
+In case if validation errors the example response will be:
+```json
+{
+  "status": 400,
+  "errors": {
+    "field-name": "error-message",
+    "field-name...": "error-message..."
+  }
+}
+```
+
+### Save Piece
+**POST** `writeAway:pieces:save` to save a particular piece by its `id` and `type`.
+
+Example request:
+```json
+{
+  "id": "unique-id",
+  "type": "piece-type",
+  "data": {
+    "key": "value",
+    "key...": "value..."
+  }
+}
+```
+> If no pieces found, a new one wil be created.
+
+Example response:
+```json
+{
+  "status": 200,
+  "data": {
+    "id": "unique-id",
+    "type": "piece-type",
+    "data": {
+      "key": "value",
+      "key...": "value..."
+    }
+  }
+}
+```
+In case if validation errors the example response will be:
+```json
+{
+  "status": 400,
+  "errors": {
+    "field-name": "error-message",
+    "field-name...": "error-message..."
+  }
+}
+``` 

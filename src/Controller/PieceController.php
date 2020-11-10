@@ -47,7 +47,7 @@ class PieceController
     }
 
     /**
-     * @Route(name="writeAway:pieces:get", group="writeAway", methods="GET", route="pieces/get")
+     * @Route(name="writeAway:pieces:get", group="writeAway", methods={"GET", "POST"}, route="pieces/get")
      * @param PieceRequest $request
      * @return array
      */
