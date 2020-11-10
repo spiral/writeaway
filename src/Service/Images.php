@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\WriteAway\Service;
 
+use Cycle\ORM\TransactionInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Files\FilesInterface;
 use Spiral\Helpers\Strings;
@@ -20,17 +21,20 @@ class Images
     private ImageRepository $imageRepository;
     private StorageManager $storage;
     private FilesInterface $files;
+    private TransactionInterface $transaction;
 
     public function __construct(
         WriteAwayConfig $config,
         ImageRepository $imageRepository,
         StorageManager $storage,
-        FilesInterface $files
+        FilesInterface $files,
+        TransactionInterface $transaction
     ) {
         $this->config = $config;
         $this->imageRepository = $imageRepository;
         $this->storage = $storage;
         $this->files = $files;
+        $this->transaction = $transaction;
     }
 
     public function list(): array
@@ -47,6 +51,7 @@ class Images
      * @param UploadedFileInterface $file
      * @return Image
      * @throws \ImagickException
+     * @throws \Throwable
      */
     public function upload(UploadedFileInterface $file): Image
     {
@@ -59,6 +64,9 @@ class Images
         $image->size = (int)$file->getSize();
         $image->thumbnail = $this->createThumbnail($file, $this->createName($file, '-min'));
         $image->original = $this->createOriginal($file, $this->createName($file));
+
+        $this->transaction->persist($image);
+        $this->transaction->run();
 
         return $image;
     }
