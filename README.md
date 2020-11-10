@@ -7,7 +7,7 @@ MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maint
 
 
 ## API Endpoints:
-### List
+### List Images
 **GET** or **POST** `writeAway:images:list` to fetch a full list of available images.
 
 Example response:
@@ -36,7 +36,7 @@ Possible image fields:
 | height | number | Optional | Image height to display |
 | width | number | Optional | Image width to display |
 
-### Upload
+### Upload Image
 **POST** `writeAway:images:upload` to upload an image file.
 
 Example request:
@@ -57,7 +57,7 @@ Example response:
 ```
 > For possible image fields see the previous endpoint.
 
-### Delete
+### Delete Image
 **POST** or **DELETE** `writeAway:images:delete` to delete a particular image
 
 Example request:
