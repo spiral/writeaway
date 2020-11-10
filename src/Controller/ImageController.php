@@ -9,8 +9,8 @@ use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Router\Annotation\Route;
 use Spiral\WriteAway\Database\Image;
 use Spiral\WriteAway\Repository\ImageRepository;
-use Spiral\WriteAway\Request\ImageRequest;
-use Spiral\WriteAway\Requests\UploadImageRequest;
+use Spiral\WriteAway\Request\Image\ImageRequest;
+use Spiral\WriteAway\Request\Image\UploadImageRequest;
 use Spiral\WriteAway\Service\Images;
 
 class ImageController

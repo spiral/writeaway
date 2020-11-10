@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Requests;
+namespace Spiral\WriteAway\Request\Image;
 
 use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Filters\Filter;

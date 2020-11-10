@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Request;
+namespace Spiral\WriteAway\Request\Image;
 
 use Spiral\Filters\Filter;
 use Spiral\WriteAway\Database\Image;
