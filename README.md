@@ -41,7 +41,7 @@ Possible image fields:
 
 Example request:
 
-`image` - FormData file item if thats a single file
+`image` - FormData file
 
 Example response: 
 ```json
