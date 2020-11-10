@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Keeper\Middleware;
+namespace Spiral\WriteAway\Middleware;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
