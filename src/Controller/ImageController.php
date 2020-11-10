@@ -8,7 +8,9 @@ use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Router\Annotation\Route;
 use Spiral\WriteAway\Database\Image;
-use Spiral\WriteAway\Requests\ImageRequest;
+use Spiral\WriteAway\Repository\ImageRepository;
+use Spiral\WriteAway\Request\ImageRequest;
+use Spiral\WriteAway\Requests\UploadImageRequest;
 use Spiral\WriteAway\Service\Images;
 
 class ImageController
@@ -36,11 +38,11 @@ class ImageController
 
     /**
      * @Route(name="writeAway:images:upload", group="writeAway", methods="POST", route="images/upload")
-     * @param ImageRequest $request
+     * @param UploadImageRequest $request
      * @return array
      * @todo multiple image upload
      */
-    public function uploadAction(ImageRequest $request): array
+    public function uploadAction(UploadImageRequest $request): array
     {
         try {
             $image = $this->images->upload($request->image);
@@ -60,22 +62,25 @@ class ImageController
      *     name="writeAway:images:delete",
      *     group="writeAway",
      *     methods={"POST", "DELETE"},
-     *     route="images/delete/<image:int>"
+     *     route="images/delete"
      * )
-     * @param Image $image
+     * @param ImageRequest    $request
+     * @param ImageRepository $imageRepository
      * @return array
      */
-    public function delete(Image $image): array
+    public function delete(ImageRequest $request, ImageRepository $imageRepository): array
     {
+        $image = $imageRepository->findByPK($request->id);
+        if (!$image instanceof Image) {
+            throw new \RuntimeException('Image not found.');
+        }
+
         try {
-            $image = $this->images->delete($image);
+            $this->images->delete($image);
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error(
                 'Image delete failed',
-                [
-                    'exception' => $exception,
-                    'image'     => $image->pack()
-                ]
+                ['exception' => $exception, 'image' => $image->pack()]
             );
             throw new ServerErrorException('Image delete failed', $exception);
         }

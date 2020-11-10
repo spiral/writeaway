@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Requests;
+namespace Spiral\WriteAway\Request;
 
-use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Filters\Filter;
+use Spiral\WriteAway\Database\Image;
 
 /**
- * @property-read UploadedFileInterface $image
+ * @property-read int $id
  */
 class ImageRequest extends Filter
 {
     protected const SCHEMA = [
-        'image' => 'file:image',
+        'id' => 'data:id',
     ];
 
     protected const VALIDATES = [
-        'image' => ['file::uploaded', 'image::valid'],
+        'id' => [
+            'notEmpty',
+            ['entity:exists', Image::class, 'error' => '[[Image not exists.]]']
+        ],
     ];
 }
