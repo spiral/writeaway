@@ -10,19 +10,7 @@ use Spiral\WriteAway\Model\PieceID;
 class BulkRequest extends Filter
 {
     protected const SCHEMA = [
-        'names' => 'data:id',
-        'type'  => 'data:type',
-    ];
-
-    protected const VALIDATES = [
-        'names' => [
-            'notEmpty',
-            ['is_array', 'error' => '[[ID should be an array of strings]]']
-        ],
-        'type'  => [
-            'notEmpty',
-            ['is_string', 'error' => '[[Type should be a string]]']
-        ]
+        'pieces' => [PieceRequest::class]
     ];
 
     /**
@@ -30,12 +18,9 @@ class BulkRequest extends Filter
      */
     public function ids(): array
     {
-        $type = $this->getField('type');
         return array_map(
-            static function (string $code) use ($type): PieceID {
-                return PieceID::create($type, $code);
-            },
-            $names = $this->getField('names')
+            static fn (PieceRequest $request): PieceID => $request->id(),
+            $names = $this->getField('pieces')
         );
     }
 }

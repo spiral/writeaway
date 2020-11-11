@@ -116,8 +116,16 @@ In case if validation errors the example response will be:
 Example request:
 ```json
 {
-  "id": ["unique-id", "unique-id..."],
-  "type": "piece-type"
+  "pieces": [
+    {
+      "id": "unique-id",
+      "type": "piece-type"
+    },
+    {
+      "id": "unique-id",
+      "type": "piece-type"
+    }
+  ]
 }
 ```
 
