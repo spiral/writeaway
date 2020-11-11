@@ -15,7 +15,7 @@ use Spiral\WriteAway\Typecast\Json;
 
 /**
  * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)
- * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"code"}, unique=true)})
+ * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"code", "type"}, unique=true)})
  */
 class Piece
 {
