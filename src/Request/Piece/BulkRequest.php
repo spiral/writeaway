@@ -20,7 +20,7 @@ class BulkRequest extends Filter
     {
         return array_map(
             static fn (PieceRequest $request): PieceID => $request->id(),
-            $names = $this->getField('pieces')
+            $this->getField('pieces')
         );
     }
 }
