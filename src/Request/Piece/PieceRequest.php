@@ -5,25 +5,19 @@ declare(strict_types=1);
 namespace Spiral\WriteAway\Request\Piece;
 
 use Spiral\Filters\Filter;
+use Spiral\WriteAway\Model\PieceID;
 
-/**
- * @property string $id
- * @property string $type
- * @property array  $data
- */
 class PieceRequest extends Filter
 {
     protected const SCHEMA = [
-        'id'   => 'data:id',
+        'code' => 'data:id',
         'type' => 'data:type',
-        'data' => 'data:data',
     ];
 
     protected const VALIDATES = [
-        'id'   => [
+        'code' => [
             'notEmpty',
-            ['is_string', 'error' => '[[ID should be a string]]'],
-            ['piece:id', 'type']
+            ['is_string', 'error' => '[[ID should be a string]]']
         ],
         'type' => [
             'notEmpty',
@@ -31,12 +25,8 @@ class PieceRequest extends Filter
         ],
     ];
 
-    protected const SETTERS = [
-        'data' => ['self', 'toArrayIfEmpty']
-    ];
-
-    protected function toArrayIfEmpty($input)
+    public function id(): PieceID
     {
-        return $input ?: [];
+        return PieceID::create($this->getField('type'), $this->getField('code'));
     }
 }

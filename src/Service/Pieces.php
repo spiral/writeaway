@@ -6,6 +6,7 @@ namespace Spiral\WriteAway\Service;
 
 use Cycle\ORM\TransactionInterface;
 use Spiral\WriteAway\Database\Piece;
+use Spiral\WriteAway\Model\PieceID;
 use Spiral\WriteAway\Repository\PieceRepository;
 use Spiral\WriteAway\Typecast\Json;
 
@@ -22,12 +23,12 @@ class Pieces
         $this->pieceRepository = $pieceRepository;
     }
 
-    public function get(string $id, string $type): Piece
+    public function get(PieceID $id): Piece
     {
-        $piece = $this->pieceRepository->findByPK($id);
+        $piece = $this->pieceRepository->findByPK($id->id());
         if (!$piece instanceof Piece) {
             //todo add piece meta
-            $piece = new Piece($id, $type);
+            $piece = new Piece($id);
         }
 
         return $piece;

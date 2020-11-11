@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
+use Spiral\WriteAway\Model\PieceID;
 use Spiral\WriteAway\Repository\PieceRepository;
 use Spiral\WriteAway\Typecast\Json;
 
@@ -33,15 +34,20 @@ class Piece
      */
     public Json $data;
     /**
+     * @Cycle\Column(type="string")
+     */
+    public string $code;
+    /**
      * @Cycle\Relation\HasMany(target=Piece\Location::class)
      * @var Collection|Piece\Location
      */
     public Collection $locations;
 
-    public function __construct(string $id, string $type)
+    public function __construct(PieceID $id)
     {
-        $this->id = $id;
-        $this->type = $type;
+        $this->id = $id->id();
+        $this->code = $id->code;
+        $this->type = $id->type;
         $this->data = new Json();
         $this->locations = new ArrayCollection();
     }

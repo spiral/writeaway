@@ -34,7 +34,7 @@ class PieceController
      */
     public function save(PieceRequest $pieceRequest, DataRequest $dataRequest, LocationRequest $locationRequest): array
     {
-        $piece = $this->pieces->get($pieceRequest->id, $pieceRequest->type);
+        $piece = $this->pieces->get($pieceRequest->id());
         try {
             $this->pieces->save($piece, $dataRequest->data, $locationRequest->namespace, $locationRequest->view);
         } catch (\Throwable $exception) {
@@ -55,7 +55,7 @@ class PieceController
      */
     public function get(PieceRequest $request): array
     {
-        $piece = $this->pieces->get($request->id, $request->type);
+        $piece = $this->pieces->get($request->id());
 
         return [
             'status' => 200,
