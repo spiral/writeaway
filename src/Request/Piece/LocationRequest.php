@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Spiral\WriteAway\Request\Piece;
 
 use Spiral\Filters\Filter;
+use Spiral\WriteAway\DTO\Location;
 
-/**
- * @property-read string $namespace
- * @property-read string $view
- */
 class LocationRequest extends Filter
 {
     protected const SCHEMA = [
@@ -19,12 +16,25 @@ class LocationRequest extends Filter
 
     protected const VALIDATES = [
         'namespace' => [
-            'notEmpty',
-            ['is_string', 'error' => '[[Should be a string.]]']
+            ['is_string', 'error' => '[[Should be a string.]]', 'if' => ['withAll' => 'namespace']]
         ],
         'view'      => [
-            'notEmpty',
-            ['is_string', 'error' => '[[Should be a string.]]']
+            ['is_string', 'error' => '[[Should be a string.]]', 'if' => ['withAll' => 'view']]
         ]
     ];
+
+    protected const SETTERS = [
+        'namespace' => ['self', 'toStringIfEmpty'],
+        'view'      => ['self', 'toStringIfEmpty'],
+    ];
+
+    protected function toStringIfEmpty($value): string
+    {
+        return $value ?: '';
+    }
+
+    public function location(): Location
+    {
+        return new Location($this->getField('namespace'), $this->getField('view'));
+    }
 }

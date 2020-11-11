@@ -6,6 +6,7 @@ namespace Spiral\WriteAway\Service;
 
 use Cycle\ORM\TransactionInterface;
 use Spiral\WriteAway\Database\Piece;
+use Spiral\WriteAway\DTO;
 use Spiral\WriteAway\Model\PieceID;
 use Spiral\WriteAway\Repository\PieceRepository;
 use Spiral\WriteAway\Typecast\Json;
@@ -41,36 +42,19 @@ class Pieces
     }
 
     /**
-     * @param Piece $piece
-     * @param array $data
+     * @param Piece    $piece
+     * @param array    $data
+     * @param DTO\Location $location
      * @throws \Throwable
      */
-    public function save(Piece $piece, array $data): void
+    public function save(Piece $piece, array $data, DTO\Location $location): void
     {
         $piece->data = new Json($data);
-        //$this->ensureLocation($piece, $namespace, $view);
+        if ($location->filled && !$piece->hasLocation($location)) {
+            $piece->locations->add(Piece\Location::createFromDTO($location));
+        }
 
         $this->transaction->persist($piece);
         $this->transaction->run();
-    }
-
-    /**
-     * @param Piece  $piece
-     * @param string $namespace
-     * @param string $view
-     * @return Piece
-     * @throws \Throwable
-     */
-    private function ensureLocation(Piece $piece, string $namespace, string $view): Piece
-    {
-        if (!$piece->hasLocation($namespace, $view)) {
-            $location = new Piece\Location();
-            $location->namespace = $namespace;
-            $location->view = $view;
-
-            $piece->locations->add($location);
-        }
-
-        return $piece;
     }
 }

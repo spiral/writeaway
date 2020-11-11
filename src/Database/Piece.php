@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
+use Spiral\WriteAway\DTO\Location;
 use Spiral\WriteAway\Model\PieceID;
 use Spiral\WriteAway\Repository\PieceRepository;
 use Spiral\WriteAway\Typecast\Json;
@@ -27,7 +28,7 @@ class Piece
     public Json $data;
     /**
      * @Cycle\Relation\HasMany(target=Piece\Location::class)
-     * @var Collection|Piece\Location
+     * @var Collection|Piece\Location[]
      */
     public Collection $locations;
     /**
@@ -61,10 +62,10 @@ class Piece
         ];
     }
 
-    public function hasLocation(string $namespace, string $view): bool
+    public function hasLocation(Location $locationDTO): bool
     {
         foreach ($this->locations as $location) {
-            if ($location->namespace === $namespace && $location->view === $view) {
+            if ($location->isSame($locationDTO)) {
                 return true;
             }
         }
