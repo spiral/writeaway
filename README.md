@@ -110,6 +110,54 @@ In case if validation errors the example response will be:
 }
 ```
 
+### Get Pieces in bulk
+**GET** or **POST** `writeAway:pieces:bulk` to fetch a particular pieces by theirs `id` and `type`.
+
+Example request:
+```json
+{
+  "id": ["unique-id", "unique-id..."],
+  "type": "piece-type"
+}
+```
+
+Example response:
+```json
+{
+  "status": 200,
+  "data": [ 
+    {
+      "id": "unique-id",
+      "type": "piece-type",
+      "data": {
+        "key": "value",
+        "key...": "value..."
+      }
+    },
+    {
+      "id": "unique-id",
+      "type": "piece-type",
+      "data": {
+        "key": "value",
+        "key...": "value..."
+      }
+    }
+  ]
+}
+```
+> Not found pieces will be ignored. 
+
+In case if validation errors the example response will be:
+```json
+{
+  "status": 400,
+  "errors": {
+    "field-name": "error-message",
+    "field-name...": "error-message..."
+  }
+}
+```
+
 ### Save Piece
 **POST** `writeAway:pieces:save` to save a particular piece by its `id` and `type`.
 

@@ -8,6 +8,7 @@ use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Router\Annotation\Route;
 use Spiral\Translator\Traits\TranslatorTrait;
+use Spiral\WriteAway\Request\Piece\BulkRequest;
 use Spiral\WriteAway\Request\Piece\DataRequest;
 use Spiral\WriteAway\Request\Piece\PieceRequest;
 use Spiral\WriteAway\Service\Pieces;
@@ -58,6 +59,19 @@ class PieceController
         return [
             'status' => 200,
             'data'   => $piece->pack()
+        ];
+    }
+
+    /**
+     * @Route(name="writeAway:pieces:bulk", group="writeAway", methods={"GET", "POST"}, route="pieces/bulk")
+     * @param BulkRequest $request
+     * @return array
+     */
+    public function bulk(BulkRequest $request): array
+    {
+        return [
+            'status' => 200,
+            'data'   => $this->pieces->getBulkList(...$request->ids())
         ];
     }
 }

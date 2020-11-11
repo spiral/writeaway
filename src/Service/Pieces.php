@@ -15,12 +15,18 @@ class Pieces
     private TransactionInterface $transaction;
     private PieceRepository $pieceRepository;
 
-    public function __construct(
-        TransactionInterface $transaction,
-        PieceRepository $pieceRepository
-    ) {
+    public function __construct(TransactionInterface $transaction, PieceRepository $pieceRepository)
+    {
         $this->transaction = $transaction;
         $this->pieceRepository = $pieceRepository;
+    }
+
+    public function getBulkList(PieceID ...$ids): array
+    {
+        return array_map(
+            static fn (Piece $piece): array => $piece->pack(),
+            $this->pieceRepository->findByIDs($ids)->fetchAll()
+        );
     }
 
     public function get(PieceID $id): Piece
