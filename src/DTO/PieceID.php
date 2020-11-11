@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Model;
+namespace Spiral\WriteAway\DTO;
 
 class PieceID
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Spiral\WriteAway\Request\Piece;
 
 use Spiral\Filters\Filter;
-use Spiral\WriteAway\Model\PieceID;
+use Spiral\WriteAway\DTO\PieceID;
 
 class BulkRequest extends Filter
 {

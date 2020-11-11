@@ -9,8 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
-use Spiral\WriteAway\DTO\Location;
-use Spiral\WriteAway\Model\PieceID;
+use Spiral\WriteAway\DTO;
 use Spiral\WriteAway\Repository\PieceRepository;
 use Spiral\WriteAway\Typecast\Json;
 
@@ -44,7 +43,7 @@ class Piece
      */
     protected string $type;
 
-    public function __construct(PieceID $id)
+    public function __construct(DTO\PieceID $id)
     {
         $this->id = $id->id();
         $this->name = $id->name;
@@ -62,7 +61,7 @@ class Piece
         ];
     }
 
-    public function hasLocation(Location $locationDTO): bool
+    public function hasLocation(DTO\Location $locationDTO): bool
     {
         foreach ($this->locations as $location) {
             if ($location->isSame($locationDTO)) {

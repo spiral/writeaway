@@ -7,7 +7,6 @@ namespace Spiral\WriteAway\Service;
 use Cycle\ORM\TransactionInterface;
 use Spiral\WriteAway\Database\Piece;
 use Spiral\WriteAway\DTO;
-use Spiral\WriteAway\Model\PieceID;
 use Spiral\WriteAway\Repository\PieceRepository;
 use Spiral\WriteAway\Typecast\Json;
 
@@ -22,7 +21,7 @@ class Pieces
         $this->pieceRepository = $pieceRepository;
     }
 
-    public function getBulkList(PieceID ...$ids): array
+    public function getBulkList(DTO\PieceID ...$ids): array
     {
         return array_map(
             static fn (Piece $piece): array => $piece->pack(),
@@ -30,7 +29,7 @@ class Pieces
         );
     }
 
-    public function get(PieceID $id): Piece
+    public function get(DTO\PieceID $id): Piece
     {
         $piece = $this->pieceRepository->findByPK($id->id());
         if (!$piece instanceof Piece) {
