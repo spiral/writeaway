@@ -22,26 +22,26 @@ class Piece
     use Timestamps;
 
     /**
-     * @Cycle\Column(type="string", primary=true)
-     */
-    public string $id;
-    /**
-     * @Cycle\Column(type="string")
-     */
-    public string $type;
-    /**
      * @Cycle\Column(type="longText", typecast=Json::class)
      */
     public Json $data;
-    /**
-     * @Cycle\Column(type="string")
-     */
-    public string $code;
     /**
      * @Cycle\Relation\HasMany(target=Piece\Location::class)
      * @var Collection|Piece\Location
      */
     public Collection $locations;
+    /**
+     * @Cycle\Column(type="string", primary=true)
+     */
+    protected string $id;
+    /**
+     * @Cycle\Column(type="string")
+     */
+    protected string $code;
+    /**
+     * @Cycle\Column(type="string")
+     */
+    protected string $type;
 
     public function __construct(PieceID $id)
     {
@@ -55,7 +55,7 @@ class Piece
     public function pack(): array
     {
         return [
-            'id'   => $this->id,
+            'id'   => $this->code,
             'type' => $this->type,
             'data' => $this->data->toArray()
         ];
