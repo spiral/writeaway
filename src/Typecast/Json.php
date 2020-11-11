@@ -52,25 +52,6 @@ class Json
         return $this->values;
     }
 
-    public function toObject(): object
-    {
-        return (object)$this->values;
-    }
-
-    public function withValue($key, $value): self
-    {
-        $json = clone $this;
-        $json->values[$key] = $value;
-        return $json;
-    }
-
-    public function withValues(array $values): self
-    {
-        $json = clone $this;
-        $json->values = $values;
-        return $json;
-    }
-
     /**
      * @return string
      * @throws JsonException

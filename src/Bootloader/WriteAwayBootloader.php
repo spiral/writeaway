@@ -13,6 +13,7 @@ use Spiral\Router\Bootloader\AnnotatedRoutesBootloader;
 use Spiral\Router\GroupRegistry;
 use Spiral\WriteAway\Config\WriteAwayConfig;
 use Spiral\WriteAway\Middleware\AccessMiddleware;
+use Spiral\WriteAway\Service\Meta;
 
 class WriteAwayBootloader extends DomainBootloader
 {
@@ -22,6 +23,9 @@ class WriteAwayBootloader extends DomainBootloader
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
         FilterInterceptor::class
+    ];
+    protected const BINDINGS     = [
+        Meta\ProviderInterface::class => Meta\DummyProvider::class
     ];
 
     private const CONFIG = WriteAwayConfig::CONFIG;

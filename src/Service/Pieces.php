@@ -8,17 +8,23 @@ use Cycle\ORM\TransactionInterface;
 use Spiral\WriteAway\Database\Piece;
 use Spiral\WriteAway\DTO;
 use Spiral\WriteAway\Repository\PieceRepository;
-use Spiral\WriteAway\Typecast\Json;
+use Spiral\WriteAway\Service\Meta\ProviderInterface;
+use Spiral\WriteAway\Typecast;
 
 class Pieces
 {
     private TransactionInterface $transaction;
     private PieceRepository $pieceRepository;
+    private ProviderInterface $metaProvider;
 
-    public function __construct(TransactionInterface $transaction, PieceRepository $pieceRepository)
-    {
+    public function __construct(
+        TransactionInterface $transaction,
+        PieceRepository $pieceRepository,
+        ProviderInterface $metaProvider
+    ) {
         $this->transaction = $transaction;
         $this->pieceRepository = $pieceRepository;
+        $this->metaProvider = $metaProvider;
     }
 
     public function getBulkList(DTO\PieceID ...$ids): array
@@ -33,7 +39,6 @@ class Pieces
     {
         $piece = $this->pieceRepository->findByPK($id->id());
         if (!$piece instanceof Piece) {
-            //todo add piece meta
             $piece = new Piece($id);
         }
 
@@ -41,14 +46,15 @@ class Pieces
     }
 
     /**
-     * @param Piece    $piece
-     * @param array    $data
+     * @param Piece        $piece
+     * @param array        $data
      * @param DTO\Location $location
      * @throws \Throwable
      */
     public function save(Piece $piece, array $data, DTO\Location $location): void
     {
-        $piece->data = new Json($data);
+        $piece->data = new Typecast\Json($data);
+        $piece->meta = new Typecast\Meta($this->metaProvider->provide());
         if ($location->filled && !$piece->hasLocation($location)) {
             $piece->locations->add(Piece\Location::createFromDTO($location));
         }

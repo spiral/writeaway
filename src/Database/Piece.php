@@ -7,11 +7,11 @@ namespace Spiral\WriteAway\Database;
 use Cycle\Annotated\Annotation as Cycle;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Spiral\WriteAway\DTO;
 use Spiral\WriteAway\Mapper\TimestampsMapper;
 use Spiral\WriteAway\Mapper\Traits\Timestamps;
-use Spiral\WriteAway\DTO;
 use Spiral\WriteAway\Repository\PieceRepository;
-use Spiral\WriteAway\Typecast\Json;
+use Spiral\WriteAway\Typecast;
 
 /**
  * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)
@@ -22,9 +22,13 @@ class Piece
     use Timestamps;
 
     /**
-     * @Cycle\Column(type="longText", typecast=Json::class)
+     * @Cycle\Column(type="longText", typecast=Typecast\Json::class)
      */
-    public Json $data;
+    public Typecast\Json $data;
+    /**
+     * @Cycle\Column(type="longText", typecast=Typecast\Meta::class)
+     */
+    public Typecast\Meta $meta;
     /**
      * @Cycle\Relation\HasMany(target=Piece\Location::class)
      * @var Collection|Piece\Location[]
@@ -48,7 +52,8 @@ class Piece
         $this->id = $id->id();
         $this->name = $id->name;
         $this->type = $id->type;
-        $this->data = new Json();
+        $this->data = new Typecast\Json();
+        $this->meta = new Typecast\Meta();
         $this->locations = new ArrayCollection();
     }
 
