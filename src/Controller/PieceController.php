@@ -8,6 +8,7 @@ use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Router\Annotation\Route;
 use Spiral\Translator\Traits\TranslatorTrait;
+use Spiral\WriteAway\Request\Piece\DataRequest;
 use Spiral\WriteAway\Request\Piece\LocationRequest;
 use Spiral\WriteAway\Request\Piece\PieceRequest;
 use Spiral\WriteAway\Service\Pieces;
@@ -27,14 +28,15 @@ class PieceController
     /**
      * @Route(name="writeAway:pieces:save", group="writeAway", methods="POST", route="pieces/save")
      * @param PieceRequest    $pieceRequest
+     * @param DataRequest     $dataRequest
      * @param LocationRequest $locationRequest
      * @return array
      */
-    public function save(PieceRequest $pieceRequest, LocationRequest $locationRequest): array
+    public function save(PieceRequest $pieceRequest, DataRequest $dataRequest, LocationRequest $locationRequest): array
     {
         $piece = $this->pieces->get($pieceRequest->id, $pieceRequest->type);
         try {
-            $this->pieces->save($piece, $pieceRequest->data, $locationRequest->namespace, $locationRequest->view);
+            $this->pieces->save($piece, $dataRequest->data, $locationRequest->namespace, $locationRequest->view);
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Piece update failed', compact('exception'));
             throw new ServerErrorException('Piece update failed', $exception);
