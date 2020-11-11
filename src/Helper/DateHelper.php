@@ -7,10 +7,12 @@ namespace Spiral\WriteAway\Helper;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
-use Spiral\WriteAway\Model\Environment;
 
 class DateHelper
 {
+    public const DATE_TIMEZONE         = 'WRITEAWAY_TIMEZONE';
+    public const DEFAULT_DATE_TIMEZONE = 'UTC';
+
     /**
      * @param string $time
      * @return DateTimeImmutable
@@ -25,9 +27,9 @@ class DateHelper
     public static function timezone(): DateTimeZone
     {
         try {
-            return new DateTimeZone(env(Environment::DATE_TIMEZONE));
+            return new DateTimeZone(env(self::DATE_TIMEZONE));
         } catch (\Throwable $e) {
-            return new DateTimeZone(Environment::DEFAULT_DATE_TIMEZONE);
+            return new DateTimeZone(self::DEFAULT_DATE_TIMEZONE);
         }
     }
 }
