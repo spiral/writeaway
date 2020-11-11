@@ -15,7 +15,7 @@ use Spiral\WriteAway\Typecast\Json;
 
 /**
  * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)
- * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"code", "type"}, unique=true)})
+ * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"name", "type"}, unique=true)})
  */
 class Piece
 {
@@ -37,7 +37,7 @@ class Piece
     /**
      * @Cycle\Column(type="string")
      */
-    protected string $code;
+    protected string $name;
     /**
      * @Cycle\Column(type="string")
      */
@@ -46,7 +46,7 @@ class Piece
     public function __construct(PieceID $id)
     {
         $this->id = $id->id();
-        $this->code = $id->code;
+        $this->name = $id->name;
         $this->type = $id->type;
         $this->data = new Json();
         $this->locations = new ArrayCollection();
@@ -55,7 +55,7 @@ class Piece
     public function pack(): array
     {
         return [
-            'id'   => $this->code,
+            'id'   => $this->name,
             'type' => $this->type,
             'data' => $this->data->toArray()
         ];

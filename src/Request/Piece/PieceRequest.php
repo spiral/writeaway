@@ -10,12 +10,12 @@ use Spiral\WriteAway\Model\PieceID;
 class PieceRequest extends Filter
 {
     protected const SCHEMA = [
-        'code' => 'data:id',
+        'name' => 'data:id',
         'type' => 'data:type',
     ];
 
     protected const VALIDATES = [
-        'code' => [
+        'name' => [
             'notEmpty',
             ['is_string', 'error' => '[[ID should be a string]]']
         ],
@@ -27,6 +27,6 @@ class PieceRequest extends Filter
 
     public function id(): PieceID
     {
-        return PieceID::create($this->getField('type'), $this->getField('code'));
+        return PieceID::create($this->getField('type'), $this->getField('name'));
     }
 }

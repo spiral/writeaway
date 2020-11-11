@@ -8,19 +8,19 @@ class PieceID
 {
     protected const SEPARATOR = ':';
 
-    public string $code;
+    public string $name;
     public string $type;
 
-    public static function create(string $type, string $code): self
+    public static function create(string $type, string $name): self
     {
         $id = new self();
         $id->type = $type;
-        $id->code = $code;
+        $id->name = $name;
         return $id;
     }
 
     public function id(): string
     {
-        return $this->type . static::SEPARATOR . $this->code;
+        return $this->type . static::SEPARATOR . $this->name;
     }
 }
