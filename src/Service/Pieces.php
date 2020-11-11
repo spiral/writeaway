@@ -35,16 +35,14 @@ class Pieces
     }
 
     /**
-     * @param Piece  $piece
-     * @param array  $data
-     * @param string $namespace
-     * @param string $view
+     * @param Piece $piece
+     * @param array $data
      * @throws \Throwable
      */
-    public function save(Piece $piece, array $data, string $namespace, string $view): void
+    public function save(Piece $piece, array $data): void
     {
         $piece->data = new Json($data);
-        $this->ensureLocation($piece, $namespace, $view);
+        //$this->ensureLocation($piece, $namespace, $view);
 
         $this->transaction->persist($piece);
         $this->transaction->run();
