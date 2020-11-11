@@ -39,12 +39,10 @@ class Images
 
     public function list(): array
     {
-        $images = [];
-        /** @var Image $image */
-        foreach ($this->imageRepository as $image) {
-            $images[] = $image->pack();
-        }
-        return $images;
+        return array_map(
+            static fn (Image $image): array => $image->pack(),
+            $this->imageRepository->select()->fetchAll()
+        );
     }
 
     /**
