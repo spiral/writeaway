@@ -6,7 +6,6 @@ namespace Spiral\Tests\Writeaway\Piece;
 
 use Spiral\Tests\Writeaway\HttpTrait;
 use Spiral\Tests\Writeaway\TestCase;
-use Spiral\Writeaway\Repository\PieceRepository;
 
 class GetTest extends TestCase
 {
@@ -18,7 +17,7 @@ class GetTest extends TestCase
      */
     public function testBadRequestedGet(array $payload): void
     {
-        $response = $this->post((string)$this->router->uri('writeaway:pieces:get'), $payload);
+        $response = $this->post($this->uri('writeaway:pieces:get'), $payload);
         $this->assertSame(400, $response->getStatusCode());
     }
 
@@ -26,19 +25,18 @@ class GetTest extends TestCase
     {
         return [
             [[]],
-            [['type' => 'piece']]
+            [['type' => 'piece']],
+            [['type' => [3], 'id' => 'code']],
         ];
     }
 
     public function testValidGet(): void
     {
         $this->post(
-            (string)$this->router->uri('writeaway:pieces:get'),
+            $this->uri('writeaway:pieces:get'),
             ['type' => 'piece', 'id' => 'something']
         );
 
-        /** @var PieceRepository $pieces */
-        $pieces = $this->app->get(PieceRepository::class);
-        $this->assertCount(0, $pieces->select());
+        $this->assertCount(0, $this->repository()->select());
     }
 }

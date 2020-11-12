@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Spiral\Tests\Writeaway\HttpTrait;
 use Spiral\Tests\Writeaway\TestCase;
 use Spiral\Writeaway\Database\Piece;
-use Spiral\Writeaway\Repository\PieceRepository;
 
 class SaveTest extends TestCase
 {
@@ -21,7 +20,7 @@ class SaveTest extends TestCase
     {
         $data = ['hello', 'world' => '!'];
         $response = $this->post(
-            (string)$this->router->uri('writeaway:pieces:save'),
+            $this->uri('writeaway:pieces:save'),
             ['type' => 'piece', 'id' => 'something', 'data' => $data]
         );
 
@@ -35,11 +34,11 @@ class SaveTest extends TestCase
     {
         $data = ['hello', 'world' => '!'];
         $this->post(
-            (string)$this->router->uri('writeaway:pieces:save'),
+            $this->uri('writeaway:pieces:save'),
             ['type' => 'piece', 'id' => 'something', 'data' => $data]
         );
         $response = $this->post(
-            (string)$this->router->uri('writeaway:pieces:get'),
+            $this->uri('writeaway:pieces:get'),
             ['type' => 'piece', 'id' => 'something']
         );
 
@@ -53,7 +52,7 @@ class SaveTest extends TestCase
     public function testInvalidLocation(array $location): void
     {
         $response = $this->post(
-            (string)$this->router->uri('writeaway:pieces:save'),
+            $this->uri('writeaway:pieces:save'),
             ['type' => 'piece', 'id' => 'something'] + $location
         );
         $this->assertSame(400, $response->getStatusCode());
@@ -70,7 +69,7 @@ class SaveTest extends TestCase
     public function testEmptyLocation(): void
     {
         $this->post(
-            (string)$this->router->uri('writeaway:pieces:save'),
+            $this->uri('writeaway:pieces:save'),
             ['type' => 'piece', 'id' => 'something', 'namespace' => 'ns', 'view' => '']
         );
 
@@ -84,7 +83,7 @@ class SaveTest extends TestCase
     public function testFilledLocation(): void
     {
         $this->post(
-            (string)$this->router->uri('writeaway:pieces:save'),
+            $this->uri('writeaway:pieces:save'),
             ['type' => 'piece', 'id' => 'something', 'namespace' => 'ns', 'view' => 'view']
         );
 
@@ -113,10 +112,5 @@ class SaveTest extends TestCase
 
         $this->assertEquals($data, $output['data']['data']);
         $this->assertCount(1, $this->repository()->select());
-    }
-
-    private function repository(): PieceRepository
-    {
-        return $this->app->get(PieceRepository::class);
     }
 }
