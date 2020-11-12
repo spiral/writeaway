@@ -1,4 +1,5 @@
 .idea/
+tests/App/runtime/*
 .env
 .coveralls.yml
 composer.lock
