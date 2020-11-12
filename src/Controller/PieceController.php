@@ -27,7 +27,7 @@ class PieceController
     {
         $piece = $this->pieces->get($pieceRequest->id());
         try {
-            $this->pieces->save($piece, $dataRequest->data, $locationRequest->location());
+            $this->pieces->save($piece, $dataRequest->getData(), $locationRequest->location());
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Piece update failed', compact('exception'));
             throw new ServerErrorException('Piece update failed', $exception);

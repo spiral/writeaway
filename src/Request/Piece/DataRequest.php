@@ -6,9 +6,6 @@ namespace Spiral\Writeaway\Request\Piece;
 
 use Spiral\Filters\Filter;
 
-/**
- * @property array  $data
- */
 class DataRequest extends Filter
 {
     protected const SCHEMA = [
@@ -28,5 +25,11 @@ class DataRequest extends Filter
     protected function toArrayIfEmpty($input)
     {
         return $input ?: [];
+    }
+
+    public function getData(): array
+    {
+        $data = $this->getField('data');
+        return is_array($data) ? $data : [];
     }
 }

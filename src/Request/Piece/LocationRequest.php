@@ -33,7 +33,7 @@ class LocationRequest extends Filter
         return new Location((string)$this->getField('namespace'), (string)$this->getField('view'));
     }
 
-    protected function toStringIfEmpty($value): string
+    protected function toStringIfEmpty($value)
     {
         return $value ?: '';
     }
