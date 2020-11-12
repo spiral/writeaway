@@ -10,7 +10,7 @@ use Spiral\Writeaway\DTO\PieceID;
 class BulkRequest extends Filter
 {
     protected const SCHEMA = [
-        'pieces' => [PieceRequest::class]
+        'pieces' => [PieceRequest::class, 'pieces.*']
     ];
 
     /**
