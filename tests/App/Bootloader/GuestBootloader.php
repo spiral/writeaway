@@ -17,8 +17,8 @@ final class GuestBootloader extends Bootloader
             $permissions->addRole(Guest::ROLE);
         }
 
-        $permissions->associate(Guest::ROLE, "*", AllowRule::class);
-        $permissions->associate(Guest::ROLE, "*.*", AllowRule::class);
-        $permissions->associate(Guest::ROLE, "*.*.*", AllowRule::class);
+        $permissions->associate(Guest::ROLE, '*', AllowRule::class);
+        $permissions->associate(Guest::ROLE, '*.*', AllowRule::class);
+        $permissions->associate(Guest::ROLE, '*.*.*', AllowRule::class);
     }
 }
