@@ -4,45 +4,51 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Bootloader;
 
-use Spiral\Bootloader\DomainBootloader;
+use Psr\Container\ContainerInterface;
+use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Bootloader\TokenizerBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\CoreInterface;
+use Spiral\Core\InterceptableCore;
 use Spiral\Domain\CycleInterceptor;
 use Spiral\Domain\FilterInterceptor;
-use Spiral\Router\GroupRegistry;
+use Spiral\Router\Route;
+use Spiral\Router\RouterInterface;
+use Spiral\Router\Target\Action;
 use Spiral\Writeaway\Config\WriteAwayConfig;
 use Spiral\Writeaway\Controller;
 use Spiral\Writeaway\Middleware\AccessMiddleware;
 use Spiral\Writeaway\Service\Meta;
 
-class WriteAwayBootloader extends DomainBootloader
+class WriteAwayBootloader extends Bootloader
 {
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
         FilterInterceptor::class
     ];
     protected const BINDINGS     = [
-        Meta\ProviderInterface::class => Meta\DummyProvider::class
+        Meta\ProviderInterface::class => Meta\DummyProvider::class,
+        CoreInterface::class          => [self::class, 'domainCore']
     ];
 
     private const CONFIG = WriteAwayConfig::CONFIG;
 
     private ConfiguratorInterface $config;
-    private GroupRegistry $groups;
     private CoreInterface $core;
     private TokenizerBootloader $tokenizerBootloader;
+    private RouterInterface $router;
 
     public function __construct(
         ConfiguratorInterface $config,
-        GroupRegistry $groups,
         CoreInterface $core,
-        TokenizerBootloader $tokenizerBootloader
+        TokenizerBootloader $tokenizerBootloader,
+        RouterInterface $router,
+        ContainerInterface $container
     ) {
         $this->config = $config;
-        $this->groups = $groups;
-        $this->core = $core;
+        $this->core = $this->domainCore($core, $container);
         $this->tokenizerBootloader = $tokenizerBootloader;
+        $this->router = $router;
     }
 
     public function boot(): void
@@ -68,70 +74,61 @@ class WriteAwayBootloader extends DomainBootloader
 
     private function registerRoutes(): void
     {
-        $group = $this->groups->getGroup('writeaway');
-
-        $group->registerRoute(
+        $names = [
             'writeaway:images:list',
-            'images/list',
-            Controller\ImageController::class,
-            'list',
-            ['GET', 'POST'],
-            [],
-            []
-        );
-        $group->registerRoute(
             'writeaway:images:upload',
-            'images/upload',
-            Controller\ImageController::class,
-            'upload',
-            ['POST'],
-            [],
-            []
-        );
-        $group->registerRoute(
             'writeaway:images:delete',
-            'images/delete',
-            Controller\ImageController::class,
-            'delete',
-            ['POST', 'DELETE'],
-            [],
-            []
-        );
-        $group->registerRoute(
             'writeaway:pieces:save',
-            'pieces/save',
-            Controller\PieceController::class,
-            'save',
-            ['POST'],
-            [],
-            []
-        );
-        $group->registerRoute(
             'writeaway:pieces:get',
-            'pieces/get',
-            Controller\PieceController::class,
-            'get',
-            ['GET', 'POST'],
-            [],
-            []
-        );
-        $group->registerRoute(
             'writeaway:pieces:bulk',
-            'pieces/bulk',
-            Controller\PieceController::class,
-            'bulk',
-            ['GET', 'POST'],
-            [],
-            []
-        );
+        ];
+        $patterns = [
+            'writeaway:images:list'   => '/api/writeaway/images/list',
+            'writeaway:images:upload' => '/api/writeaway/images/upload',
+            'writeaway:images:delete' => '/api/writeaway/images/delete',
+            'writeaway:pieces:save'   => '/api/writeaway/pieces/save',
+            'writeaway:pieces:get'    => '/api/writeaway/pieces/get',
+            'writeaway:pieces:bulk'   => '/api/writeaway/pieces/bulk',
+        ];
+        $actions = [
+            'writeaway:images:list'   => new Action(Controller\ImageController::class, 'list'),
+            'writeaway:images:upload' => new Action(Controller\ImageController::class, 'upload'),
+            'writeaway:images:delete' => new Action(Controller\ImageController::class, 'delete'),
+            'writeaway:pieces:save'   => new Action(Controller\PieceController::class, 'save'),
+            'writeaway:pieces:get'    => new Action(Controller\PieceController::class, 'get'),
+            'writeaway:pieces:bulk'   => new Action(Controller\PieceController::class, 'bulk'),
+        ];
+        $verbs = [
+            'writeaway:images:list'   => ['GET', 'POST'],
+            'writeaway:images:upload' => ['POST'],
+            'writeaway:images:delete' => ['POST', 'DELETE'],
+            'writeaway:pieces:save'   => ['POST'],
+            'writeaway:pieces:get'    => ['GET', 'POST'],
+            'writeaway:pieces:bulk'   => ['GET', 'POST'],
+        ];
 
-        $group->setCore($this->core)
-            ->setPrefix('api/writeaway/')
-            ->addMiddleware(AccessMiddleware::class);
+        foreach ($names as $name) {
+            $route = new Route($patterns[$name], $actions[$name]->withCore($this->core));
+            $this->router->setRoute(
+                $name,
+                $route->withMiddleware(AccessMiddleware::class)->withVerbs(...$verbs[$name])
+            );
+        }
     }
 
     private function registerDatabaseEntities(): void
     {
         $this->tokenizerBootloader->addDirectory(dirname(__DIR__) . '/Database');
+    }
+
+    private function domainCore(CoreInterface $core, ContainerInterface $container): InterceptableCore
+    {
+        $core = new InterceptableCore($core);
+
+        foreach (static::INTERCEPTORS as $interceptor) {
+            $core->addInterceptor($container->get($interceptor));
+        }
+
+        return $core;
     }
 }
