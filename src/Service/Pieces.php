@@ -31,7 +31,12 @@ class Pieces
     {
         return array_map(
             static fn (Piece $piece): array => $piece->pack(),
-            $this->pieceRepository->findByIDs($ids)->fetchAll()
+            $this->pieceRepository->findByIDs(
+                array_map(
+                    static fn (DTO\PieceID $id): string => $id->id(),
+                    $ids
+                )
+            )->fetchAll()
         );
     }
 
