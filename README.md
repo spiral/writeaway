@@ -5,6 +5,9 @@ License:
 --------
 MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).
 
+## Usage
+Register `WriteawayBootloader` in the App.
+Note that is uses `TokenizerBootloader` so it must be registered before `CommandsBootloader`.
 
 ## API Endpoints:
 ### List Images
@@ -14,7 +17,7 @@ Example response:
 ```json
 {
   "status": 200,
-  "data": [      
+  "data": [
     {
       "id": "unique-id",
       "src": "image1.png"
@@ -47,7 +50,7 @@ Example response:
 ```json
 {
   "status": 200,
-  "data": [      
+  "data": [
     {
       "id": "unique-id",
       "src": "image1.png"
@@ -133,7 +136,7 @@ Example response:
 ```json
 {
   "status": 200,
-  "data": [ 
+  "data": [
     {
       "id": "unique-id",
       "type": "piece-type",
