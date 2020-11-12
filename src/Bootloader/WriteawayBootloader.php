@@ -6,6 +6,7 @@ namespace Spiral\Writeaway\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Bootloader\ConsoleBootloader;
 use Spiral\Bootloader\TokenizerBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\CoreInterface;
@@ -15,6 +16,7 @@ use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\Route;
 use Spiral\Router\RouterInterface;
 use Spiral\Router\Target\Action;
+use Spiral\Writeaway\Command\DropCommand;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Controller;
 use Spiral\Writeaway\Middleware\AccessMiddleware;
@@ -22,6 +24,9 @@ use Spiral\Writeaway\Service\Meta;
 
 class WriteawayBootloader extends Bootloader
 {
+    protected const DEPENDENCIES = [
+        ConsoleBootloader::class,
+    ];
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
         FilterInterceptor::class
@@ -55,6 +60,7 @@ class WriteawayBootloader extends Bootloader
     {
         $this->initConfig();
         $this->registerRoutes();
+        $console->addCommand(DropCommand::class);
         $this->registerDatabaseEntities();
     }
 
