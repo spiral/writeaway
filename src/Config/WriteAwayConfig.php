@@ -8,21 +8,15 @@ use Spiral\Core\InjectableConfig;
 
 class WriteAwayConfig extends InjectableConfig
 {
-    public const CONFIG = 'writeAway';
+    public const CONFIG = 'writeaway';
 
     protected $config = [
-        'endpointPrefix' => '',
         'permission'     => '',
         'images'         => [
             'storage'   => '',
             'thumbnail' => ['width' => 0, 'height' => 0]
         ]
     ];
-
-    public function endpointPrefix(): string
-    {
-        return $this->config['endpointPrefix'];
-    }
 
     public function editPermission(): string
     {
