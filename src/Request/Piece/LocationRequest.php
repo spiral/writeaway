@@ -35,6 +35,6 @@ class LocationRequest extends Filter
 
     public function location(): Location
     {
-        return new Location($this->getField('namespace'), $this->getField('view'));
+        return new Location((string)$this->getField('namespace'), (string)$this->getField('view'));
     }
 }
