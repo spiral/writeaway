@@ -62,7 +62,8 @@ class Piece
         return [
             'id'   => $this->name,
             'type' => $this->type,
-            'data' => $this->data->toArray()
+            'data' => $this->data->toArray(),
+            'meta' => $this->meta->toArray()
         ];
     }
 
