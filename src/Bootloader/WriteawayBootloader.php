@@ -38,35 +38,21 @@ class WriteawayBootloader extends Bootloader
 
     private const CONFIG = WriteawayConfig::CONFIG;
 
-    private ConfiguratorInterface $config;
     private CoreInterface $core;
-    private TokenizerBootloader $tokenizerBootloader;
     private RouterInterface $router;
 
-    public function __construct(
-        ConfiguratorInterface $config,
-        CoreInterface $core,
-        TokenizerBootloader $tokenizerBootloader,
-        RouterInterface $router,
-        ContainerInterface $container
-    ) {
-        $this->config = $config;
+    public function __construct(CoreInterface $core, RouterInterface $router, ContainerInterface $container)
+    {
         $this->core = $this->domainCore($core, $container);
-        $this->tokenizerBootloader = $tokenizerBootloader;
         $this->router = $router;
     }
 
-    public function boot(): void
-    {
-        $this->initConfig();
-        $this->registerRoutes();
-        $console->addCommand(DropCommand::class);
-        $this->registerDatabaseEntities();
-    }
-
-    private function initConfig(): void
-    {
-        $this->config->setDefaults(
+    public function boot(
+        ConfiguratorInterface $config,
+        ConsoleBootloader $console,
+        TokenizerBootloader $tokenizer
+    ): void {
+        $config->setDefaults(
             self::CONFIG,
             [
                 'permission' => 'writeaway.edit',
@@ -76,6 +62,9 @@ class WriteawayBootloader extends Bootloader
                 ]
             ]
         );
+        $this->registerRoutes();
+        $console->addCommand(DropCommand::class);
+        $tokenizer->addDirectory(dirname(__DIR__) . '/Database');
     }
 
     private function registerRoutes(): void
@@ -120,11 +109,6 @@ class WriteawayBootloader extends Bootloader
                 $route->withMiddleware(AccessMiddleware::class)->withVerbs(...$verbs[$name])
             );
         }
-    }
-
-    private function registerDatabaseEntities(): void
-    {
-        $this->tokenizerBootloader->addDirectory(dirname(__DIR__) . '/Database');
     }
 
     private function domainCore(CoreInterface $core, ContainerInterface $container): InterceptableCore
