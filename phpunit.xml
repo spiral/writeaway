@@ -19,7 +19,7 @@
         </include>
     </coverage>
     <testsuites>
-        <testsuite name="WriteAway - PHP API server">
+        <testsuite name="Writeaway - PHP API server">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

@@ -15,12 +15,12 @@ use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\Route;
 use Spiral\Router\RouterInterface;
 use Spiral\Router\Target\Action;
-use Spiral\Writeaway\Config\WriteAwayConfig;
+use Spiral\Writeaway\Config\WriteawayConfig_;
 use Spiral\Writeaway\Controller;
 use Spiral\Writeaway\Middleware\AccessMiddleware;
 use Spiral\Writeaway\Service\Meta;
 
-class WriteAwayBootloader extends Bootloader
+class WriteawayBootloader_ extends Bootloader
 {
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
@@ -31,7 +31,7 @@ class WriteAwayBootloader extends Bootloader
         CoreInterface::class          => [self::class, 'domainCore']
     ];
 
-    private const CONFIG = WriteAwayConfig::CONFIG;
+    private const CONFIG = WriteawayConfig_::CONFIG;
 
     private ConfiguratorInterface $config;
     private CoreInterface $core;

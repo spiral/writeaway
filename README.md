@@ -1,4 +1,4 @@
-PHP API server for WriteAway editor
+PHP API server for Writeaway editor
 ========
 
 License:
@@ -210,7 +210,7 @@ In case if validation errors the example response will be:
 ## Components
 ### Meta
 Meta is a structure designed to represent current piece editor. While this package knows nothing about real app actors,
-`\Spiral\WriteAway\Service\Meta\ProviderInterface` is given - a developer can bind it to a more rich implementation,
+`\Spiral\Writeaway\Service\Meta\ProviderInterface` is given - a developer can bind it to a more rich implementation,
 so the meta will contain the real user's id, label and time. Example:
 ```json
 {
