@@ -54,7 +54,7 @@ class Pieces
     public function save(Piece $piece, array $data, DTO\Location $location): void
     {
         $piece->data = new Typecast\Json($data);
-        $piece->meta = new Typecast\Meta($this->metaProvider->provide());
+        $piece->meta = Typecast\Meta::fromDTO($this->metaProvider->provide());
         if ($location->filled && !$piece->hasLocation($location)) {
             $piece->locations->add(Piece\Location::createFromDTO($location));
         }

@@ -8,8 +8,8 @@ use Spiral\Writeaway\DTO;
 
 class Meta extends Json
 {
-    public function __construct(DTO\Meta $meta = null)
+    public static function fromDTO(DTO\Meta $meta): self
     {
-        parent::__construct($meta ? $meta->toArray() : []);
+        return new self($meta->toArray());
     }
 }
