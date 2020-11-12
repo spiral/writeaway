@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Tests\WriteAway;
+namespace Spiral\Tests\Writeaway;
 
 use Laminas\Diactoros\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
