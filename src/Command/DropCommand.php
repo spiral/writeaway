@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Command;
+namespace Spiral\Writeaway\Command;
 
 use Cycle\ORM\TransactionInterface;
 use Spiral\Console\Command;
-use Spiral\WriteAway\Repository\PieceRepository;
+use Spiral\Writeaway\Repository\PieceRepository;
 
 class DropCommand extends Command
 {

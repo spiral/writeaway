@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Database;
+namespace Spiral\Writeaway\Database;
 
 use Cycle\Annotated\Annotation as Cycle;
-use Spiral\WriteAway\Mapper\TimestampsMapper;
-use Spiral\WriteAway\Mapper\Traits\Timestamps;
-use Spiral\WriteAway\Repository\ImageRepository;
+use Spiral\Writeaway\Mapper\TimestampsMapper;
+use Spiral\Writeaway\Mapper\Traits\Timestamps;
+use Spiral\Writeaway\Repository\ImageRepository;
 
 /**
  * @Cycle\Entity(table="images", mapper=TimestampsMapper::class, repository=ImageRepository::class)

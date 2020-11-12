@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Middleware;
+namespace Spiral\Writeaway\Middleware;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -10,7 +10,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Spiral\Http\Exception\ClientException\ForbiddenException;
 use Spiral\Security\GuardInterface;
-use Spiral\WriteAway\Config\WriteAwayConfig;
+use Spiral\Writeaway\Config\WriteAwayConfig;
 
 class AccessMiddleware implements MiddlewareInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Request\Piece;
+namespace Spiral\Writeaway\Request\Piece;
 
 use Spiral\Filters\Filter;
 

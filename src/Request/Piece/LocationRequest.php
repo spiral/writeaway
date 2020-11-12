@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Request\Piece;
+namespace Spiral\Writeaway\Request\Piece;
 
 use Spiral\Filters\Filter;
-use Spiral\WriteAway\DTO\Location;
+use Spiral\Writeaway\DTO\Location;
 
 class LocationRequest extends Filter
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Typecast;
+namespace Spiral\Writeaway\Typecast;
 
 use JsonException;
 use Spiral\Database\DatabaseInterface;

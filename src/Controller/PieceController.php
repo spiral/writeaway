@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Controller;
+namespace Spiral\Writeaway\Controller;
 
 use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
-use Spiral\WriteAway\Request\Piece\BulkRequest;
-use Spiral\WriteAway\Request\Piece\DataRequest;
-use Spiral\WriteAway\Request\Piece\LocationRequest;
-use Spiral\WriteAway\Request\Piece\PieceRequest;
-use Spiral\WriteAway\Service\Pieces;
+use Spiral\Writeaway\Request\Piece\BulkRequest;
+use Spiral\Writeaway\Request\Piece\DataRequest;
+use Spiral\Writeaway\Request\Piece\LocationRequest;
+use Spiral\Writeaway\Request\Piece\PieceRequest;
+use Spiral\Writeaway\Service\Pieces;
 
 class PieceController
 {

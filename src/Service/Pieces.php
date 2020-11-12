@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Service;
+namespace Spiral\Writeaway\Service;
 
 use Cycle\ORM\TransactionInterface;
-use Spiral\WriteAway\Database\Piece;
-use Spiral\WriteAway\DTO;
-use Spiral\WriteAway\Repository\PieceRepository;
-use Spiral\WriteAway\Service\Meta\ProviderInterface;
-use Spiral\WriteAway\Typecast;
+use Spiral\Writeaway\Database\Piece;
+use Spiral\Writeaway\DTO;
+use Spiral\Writeaway\Repository\PieceRepository;
+use Spiral\Writeaway\Service\Meta\ProviderInterface;
+use Spiral\Writeaway\Typecast;
 
 class Pieces
 {

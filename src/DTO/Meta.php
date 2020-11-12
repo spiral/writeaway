@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\DTO;
+namespace Spiral\Writeaway\DTO;
 
-use Spiral\WriteAway\Helper\DateHelper;
+use Spiral\Writeaway\Helper\DateHelper;
 
 class Meta
 {

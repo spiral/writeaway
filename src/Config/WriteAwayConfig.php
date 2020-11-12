@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Config;
+namespace Spiral\Writeaway\Config;
 
 use Spiral\Core\InjectableConfig;
 

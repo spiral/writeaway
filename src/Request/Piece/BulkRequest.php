@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Request\Piece;
+namespace Spiral\Writeaway\Request\Piece;
 
 use Spiral\Filters\Filter;
-use Spiral\WriteAway\DTO\PieceID;
+use Spiral\Writeaway\DTO\PieceID;
 
 class BulkRequest extends Filter
 {

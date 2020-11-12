@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Mapper\Traits;
+namespace Spiral\Writeaway\Mapper\Traits;
 
 use Cycle\Annotated\Annotation as Cycle;
 use DateTimeImmutable;

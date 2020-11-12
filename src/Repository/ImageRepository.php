@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Repository;
+namespace Spiral\Writeaway\Repository;
 
 use Cycle\ORM\Select\Repository;
 

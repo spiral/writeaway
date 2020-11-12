@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Service\Meta;
+namespace Spiral\Writeaway\Service\Meta;
 
 use Spiral\Helpers\Strings;
-use Spiral\WriteAway\DTO\Meta;
+use Spiral\Writeaway\DTO\Meta;
 
 class DummyProvider implements ProviderInterface
 {

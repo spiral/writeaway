@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Helper;
+namespace Spiral\Writeaway\Helper;
 
 use DateTimeImmutable;
 use DateTimeZone;

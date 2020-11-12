@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Request\Image;
+namespace Spiral\Writeaway\Request\Image;
 
 use Spiral\Filters\Filter;
-use Spiral\WriteAway\Database\Image;
+use Spiral\Writeaway\Database\Image;
 
 /**
  * @property-read int $id

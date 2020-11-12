@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Database\Piece;
+namespace Spiral\Writeaway\Database\Piece;
 
 use Cycle\Annotated\Annotation as Cycle;
-use Spiral\WriteAway\DTO;
+use Spiral\Writeaway\DTO;
 
 /**
  * @Cycle\Entity(table="piece_locations")

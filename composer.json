@@ -1,7 +1,7 @@
 {
   "name": "spiral/writeaway",
   "type": "library",
-  "description": "PHP API server for WriteAway editor",
+  "description": "PHP API server for Writeaway editor",
   "license": "MIT",
   "require": {
     "php": "^7.4",
@@ -19,13 +19,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Spiral\\WriteAway\\": "src/",
+      "Spiral\\Writeaway\\": "src/",
       "Spiral\\": "spiral/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Spiral\\Tests\\WriteAway\\": "tests/"
+      "Spiral\\Tests\\Writeaway\\": "tests/"
     }
   }
 }

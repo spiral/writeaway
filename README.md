@@ -8,7 +8,7 @@ MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maint
 
 ## API Endpoints:
 ### List Images
-**GET** or **POST** `writeAway:images:list` to fetch a full list of available images.
+**GET** or **POST** `writeaway:images:list` to fetch a full list of available images.
 
 Example response:
 ```json
@@ -37,7 +37,7 @@ Possible image fields:
 | width | number | Optional | Image width to display |
 
 ### Upload Image
-**POST** `writeAway:images:upload` to upload an image file.
+**POST** `writeaway:images:upload` to upload an image file.
 
 Example request:
 
@@ -58,7 +58,7 @@ Example response:
 > For possible image fields see the previous endpoint.
 
 ### Delete Image
-**POST** or **DELETE** `writeAway:images:delete` to delete a particular image
+**POST** or **DELETE** `writeaway:images:delete` to delete a particular image
 
 Example request:
 ```json
@@ -74,7 +74,7 @@ Example response:
 ```
 
 ### Get Piece
-**GET** or **POST** `writeAway:pieces:get` to fetch a particular piece by its `id` and `type`.
+**GET** or **POST** `writeaway:pieces:get` to fetch a particular piece by its `id` and `type`.
 
 Example request:
 ```json
@@ -111,7 +111,7 @@ In case if validation errors the example response will be:
 ```
 
 ### Get Pieces in bulk
-**GET** or **POST** `writeAway:pieces:bulk` to fetch a particular pieces by theirs `id` and `type`.
+**GET** or **POST** `writeaway:pieces:bulk` to fetch a particular pieces by theirs `id` and `type`.
 
 Example request:
 ```json
@@ -167,7 +167,7 @@ In case if validation errors the example response will be:
 ```
 
 ### Save Piece
-**POST** `writeAway:pieces:save` to save a particular piece by its `id` and `type`.
+**POST** `writeaway:pieces:save` to save a particular piece by its `id` and `type`.
 
 Example request:
 ```json

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Bootloader;
+namespace Spiral\Writeaway\Bootloader;
 
 use Spiral\Bootloader\DomainBootloader;
 use Spiral\Bootloader\TokenizerBootloader;
@@ -11,10 +11,10 @@ use Spiral\Core\CoreInterface;
 use Spiral\Domain\CycleInterceptor;
 use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\GroupRegistry;
-use Spiral\WriteAway\Config\WriteAwayConfig;
-use Spiral\WriteAway\Controller;
-use Spiral\WriteAway\Middleware\AccessMiddleware;
-use Spiral\WriteAway\Service\Meta;
+use Spiral\Writeaway\Config\WriteAwayConfig;
+use Spiral\Writeaway\Controller;
+use Spiral\Writeaway\Middleware\AccessMiddleware;
+use Spiral\Writeaway\Service\Meta;
 
 class WriteAwayBootloader extends DomainBootloader
 {

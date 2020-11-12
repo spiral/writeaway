@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Repository;
+namespace Spiral\Writeaway\Repository;
 
 use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;
 use Spiral\Database\Injection\Parameter;
-use Spiral\WriteAway\Database\Piece;
+use Spiral\Writeaway\Database\Piece;
 
 class PieceRepository extends Repository
 {

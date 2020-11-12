@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Typecast;
+namespace Spiral\Writeaway\Typecast;
 
-use Spiral\WriteAway\DTO;
+use Spiral\Writeaway\DTO;
 
 class Meta extends Json
 {

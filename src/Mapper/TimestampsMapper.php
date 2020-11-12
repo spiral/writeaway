@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Mapper;
+namespace Spiral\Writeaway\Mapper;
 
 use Cycle\ORM\Command\ContextCarrierInterface;
 use Cycle\ORM\Command\Database\Update;
 use Cycle\ORM\Heap\Node;
 use Cycle\ORM\Heap\State;
 use Cycle\ORM\Mapper\Mapper as BaseMapper;
-use Spiral\WriteAway\Helper\DateHelper;
+use Spiral\Writeaway\Helper\DateHelper;
 
 class TimestampsMapper extends BaseMapper
 {

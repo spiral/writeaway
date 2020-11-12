@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Service;
+namespace Spiral\Writeaway\Service;
 
 use Cycle\ORM\TransactionInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Files\FilesInterface;
 use Spiral\Helpers\Strings;
 use Spiral\Storage\StorageManager;
-use Spiral\WriteAway\Config\WriteAwayConfig;
-use Spiral\WriteAway\Database\Image;
-use Spiral\WriteAway\Repository\ImageRepository;
+use Spiral\Writeaway\Config\WriteAwayConfig;
+use Spiral\Writeaway\Database\Image;
+use Spiral\Writeaway\Repository\ImageRepository;
 
 class Images
 {

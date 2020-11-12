@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Service\Meta;
+namespace Spiral\Writeaway\Service\Meta;
 
-use Spiral\WriteAway\DTO\Meta;
+use Spiral\Writeaway\DTO\Meta;
 
 interface ProviderInterface
 {

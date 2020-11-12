@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Database;
+namespace Spiral\Writeaway\Database;
 
 use Cycle\Annotated\Annotation as Cycle;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Spiral\WriteAway\DTO;
-use Spiral\WriteAway\Mapper\TimestampsMapper;
-use Spiral\WriteAway\Mapper\Traits\Timestamps;
-use Spiral\WriteAway\Repository\PieceRepository;
-use Spiral\WriteAway\Typecast;
+use Spiral\Writeaway\DTO;
+use Spiral\Writeaway\Mapper\TimestampsMapper;
+use Spiral\Writeaway\Mapper\Traits\Timestamps;
+use Spiral\Writeaway\Repository\PieceRepository;
+use Spiral\Writeaway\Typecast;
 
 /**
  * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)

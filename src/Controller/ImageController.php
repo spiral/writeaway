@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Spiral\WriteAway\Controller;
+namespace Spiral\Writeaway\Controller;
 
 use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
-use Spiral\WriteAway\Database\Image;
-use Spiral\WriteAway\Repository\ImageRepository;
-use Spiral\WriteAway\Request\Image\ImageRequest;
-use Spiral\WriteAway\Request\Image\UploadImageRequest;
-use Spiral\WriteAway\Service\Images;
+use Spiral\Writeaway\Database\Image;
+use Spiral\Writeaway\Repository\ImageRepository;
+use Spiral\Writeaway\Request\Image\ImageRequest;
+use Spiral\Writeaway\Request\Image\UploadImageRequest;
+use Spiral\Writeaway\Service\Images;
 
 class ImageController
 {
