@@ -14,7 +14,7 @@ use Spiral\Console\Console;
 use Spiral\Framework\Kernel;
 use Spiral\Http\Http;
 use Spiral\Tests\Writeaway\App\Bootloader\GuestBootloader;
-use Spiral\Writeaway\Bootloader\WriteawayBootloader_;
+use Spiral\Writeaway\Bootloader\WriteawayBootloader;
 
 class App extends Kernel
 {
@@ -26,7 +26,7 @@ class App extends Kernel
 
         Cycle\CycleBootloader::class,
         Cycle\AnnotatedBootloader::class,
-        WriteawayBootloader_::class,
+        WriteawayBootloader::class,
 
         CommandBootloader::class,
         FiltersBootloader::class,

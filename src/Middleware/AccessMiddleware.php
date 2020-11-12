@@ -10,14 +10,14 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Spiral\Http\Exception\ClientException\ForbiddenException;
 use Spiral\Security\GuardInterface;
-use Spiral\Writeaway\Config\WriteawayConfig_;
+use Spiral\Writeaway\Config\WriteawayConfig;
 
 class AccessMiddleware implements MiddlewareInterface
 {
-    private WriteawayConfig_ $config;
+    private WriteawayConfig $config;
     private GuardInterface $guard;
 
-    public function __construct(WriteawayConfig_ $config, GuardInterface $guard)
+    public function __construct(WriteawayConfig $config, GuardInterface $guard)
     {
         $this->config = $config;
         $this->guard = $guard;

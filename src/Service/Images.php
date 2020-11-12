@@ -9,7 +9,7 @@ use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Files\FilesInterface;
 use Spiral\Helpers\Strings;
 use Spiral\Storage\StorageManager;
-use Spiral\Writeaway\Config\WriteawayConfig_;
+use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Database\Image;
 use Spiral\Writeaway\Repository\ImageRepository;
 
@@ -17,14 +17,14 @@ class Images
 {
     private const SEED_LENGTH = 8;
 
-    private WriteawayConfig_ $config;
+    private WriteawayConfig $config;
     private ImageRepository $imageRepository;
     private StorageManager $storage;
     private FilesInterface $files;
     private TransactionInterface $transaction;
 
     public function __construct(
-        WriteawayConfig_ $config,
+        WriteawayConfig $config,
         ImageRepository $imageRepository,
         StorageManager $storage,
         FilesInterface $files,

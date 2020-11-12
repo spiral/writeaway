@@ -6,7 +6,7 @@ namespace Spiral\Writeaway\Config;
 
 use Spiral\Core\InjectableConfig;
 
-class WriteawayConfig_ extends InjectableConfig
+class WriteawayConfig extends InjectableConfig
 {
     public const CONFIG = 'writeaway';
 
