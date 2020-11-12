@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Tests\WriteAway;
+namespace Spiral\Tests\Writeaway;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Spiral\Boot\Environment;
-use Spiral\Tests\WriteAway\App\App;
+use Spiral\Router\RouterInterface;
+use Spiral\Tests\Writeaway\App\App;
 
 /**
  * @requires function \Spiral\Framework\Kernel::init
  */
 abstract class TestCase extends BaseTestCase
 {
-    /** @var App */
-    protected $app;
+    protected App $app;
+    protected RouterInterface $router;
 
     /**
      * @throws \Throwable
@@ -23,6 +24,12 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->app = $this->makeApp(['DEBUG' => true]);
+
+        /** @var RouterInterface $router */
+        $router = $this->app->get(RouterInterface::class);
+        $this->router = $router;
+
+        $this->app->getConsole()->run('cycle:sync');
     }
 
     /**
