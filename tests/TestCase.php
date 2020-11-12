@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 use Spiral\Boot\Environment;
 use Spiral\Router\RouterInterface;
 use Spiral\Tests\Writeaway\App\App;
+use Spiral\Writeaway\Repository\PieceRepository;
 
 /**
  * @requires function \Spiral\Framework\Kernel::init
@@ -15,7 +16,7 @@ use Spiral\Tests\Writeaway\App\App;
 abstract class TestCase extends BaseTestCase
 {
     protected App $app;
-    protected RouterInterface $router;
+    private RouterInterface $router;
 
     /**
      * @throws \Throwable
@@ -46,5 +47,15 @@ abstract class TestCase extends BaseTestCase
         ];
 
         return App::init($config, new Environment($env), false);
+    }
+
+    protected function uri(string $name): string
+    {
+        return (string)$this->router->uri($name);
+    }
+
+    protected function repository(): PieceRepository
+    {
+        return $this->app->get(PieceRepository::class);
     }
 }
