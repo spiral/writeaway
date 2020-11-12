@@ -7,9 +7,9 @@ namespace Spiral\Tests\Writeaway\Piece;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Tests\Writeaway\HttpTrait;
 use Spiral\Tests\Writeaway\TestCase;
+use Spiral\Writeaway\Database\Piece;
 use Spiral\Writeaway\Repository\PieceRepository;
 
-//todo test save with locations (invalid, empty, valid)
 class SaveTest extends TestCase
 {
     use HttpTrait;
@@ -47,6 +47,62 @@ class SaveTest extends TestCase
     }
 
     /**
+     * @dataProvider invalidLocationProvider
+     * @param array $location
+     */
+    public function testInvalidLocation(array $location): void
+    {
+        $response = $this->post(
+            (string)$this->router->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something'] + $location
+        );
+        $this->assertSame(400, $response->getStatusCode());
+    }
+
+    public function invalidLocationProvider(): iterable
+    {
+        return [
+            [['namespace' => [123]]],
+            [['namespace' => 'ns', 'view' => new \stdClass()]],
+        ];
+    }
+
+    public function testEmptyLocation(): void
+    {
+        $this->post(
+            (string)$this->router->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something', 'namespace' => 'ns', 'view' => '']
+        );
+
+        /** @var Piece|null $piece */
+        $piece = $this->repository()->findOne();
+
+        $this->assertInstanceOf(Piece::class, $piece);
+        $this->assertCount(0, $piece->locations);
+    }
+
+    public function testFilledLocation(): void
+    {
+        $this->post(
+            (string)$this->router->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something', 'namespace' => 'ns', 'view' => 'view']
+        );
+
+        /** @var Piece|null $piece */
+        $piece = $this->repository()->findOne();
+
+        $this->assertInstanceOf(Piece::class, $piece);
+        $this->assertCount(1, $piece->locations);
+
+        /** @var Piece\Location|null $location */
+        $location = $piece->locations->first();
+
+        $this->assertInstanceOf(Piece\Location::class, $location);
+        $this->assertSame('ns', $location->namespace);
+        $this->assertSame('view', $location->view);
+    }
+
+    /**
      * @param ResponseInterface $response
      * @param array             $data
      * @throws \JsonException
@@ -54,11 +110,13 @@ class SaveTest extends TestCase
     private function assertCreated(ResponseInterface $response, array $data): void
     {
         $output = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
-        $piece = $output['data'];
-        $this->assertEquals($data, $piece['data']);
 
-        /** @var PieceRepository $pieces */
-        $pieces = $this->app->get(PieceRepository::class);
-        $this->assertCount(1, $pieces->select());
+        $this->assertEquals($data, $output['data']['data']);
+        $this->assertCount(1, $this->repository()->select());
+    }
+
+    private function repository(): PieceRepository
+    {
+        return $this->app->get(PieceRepository::class);
     }
 }
