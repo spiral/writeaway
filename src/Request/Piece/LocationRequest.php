@@ -35,6 +35,7 @@ class LocationRequest extends Filter
 
     protected function toStringIfEmpty($value)
     {
+        $value = (is_scalar($value) || is_null($value)) ? (string)$value : $value;
         return $value ?: '';
     }
 }
