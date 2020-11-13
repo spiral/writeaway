@@ -10,6 +10,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 trait HttpTrait
 {
+    private function upload($uri, array $files, array $headers = [], array $cookies = []): ResponseInterface
+    {
+        return $this->app->getHttp()->handle(
+            new ServerRequest([], $files, $uri, 'POST', 'php://input', $headers, $cookies)
+        );
+    }
+
     private function post($uri, array $data = [], array $headers = [], array $cookies = []): ResponseInterface
     {
         return $this->app->getHttp()->handle(

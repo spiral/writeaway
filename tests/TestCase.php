@@ -41,9 +41,10 @@ abstract class TestCase extends BaseTestCase
     protected function makeApp(array $env = []): App
     {
         $config = [
-            'config' => __DIR__ . '/config/',
-            'root'   => __DIR__ . '/App/',
             'app'    => __DIR__ . '/App/',
+            'root'   => __DIR__ . '/App/',
+            'config' => __DIR__ . '/config/',
+            'public' => __DIR__ . '/public/',
         ];
 
         return App::init($config, new Environment($env), false);
