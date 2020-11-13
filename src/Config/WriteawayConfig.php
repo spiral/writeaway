@@ -11,10 +11,10 @@ class WriteawayConfig extends InjectableConfig
     public const CONFIG = 'writeaway';
 
     protected $config = [
-        'permission'     => '',
-        'images'         => [
-            'storage'   => '',
-            'thumbnail' => ['width' => 0, 'height' => 0]
+        'permission' => '',
+        'images'     => [
+            'storageBucket' => '',
+            'thumbnail'     => ['width' => 0, 'height' => 0]
         ]
     ];
 
@@ -25,7 +25,7 @@ class WriteawayConfig extends InjectableConfig
 
     public function imageStorage(): string
     {
-        return $this->config['images']['storage'];
+        return $this->config['images']['storageBucket'];
     }
 
     public function thumbnailWidth(): int

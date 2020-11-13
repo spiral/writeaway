@@ -57,8 +57,8 @@ class WriteawayBootloader extends Bootloader
             [
                 'permission' => 'writeaway.edit',
                 'images'     => [
-                    'storage'   => 'local',
-                    'thumbnail' => ['width' => 120, 'height' => 120]
+                    'storageBucket' => 'uploads',
+                    'thumbnail'     => ['width' => 120, 'height' => 120]
                 ]
             ]
         );
