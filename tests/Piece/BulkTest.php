@@ -54,6 +54,6 @@ class BulkTest extends TestCase
         $output = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertCount(1, $output['data']);
         $this->assertSame('piece', $output['data'][0]['type']);
-        $this->assertSame('code', $output['data'][0]['code']);
+        $this->assertSame('code', $output['data'][0]['id']);
     }
 }
