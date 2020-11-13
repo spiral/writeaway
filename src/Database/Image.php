@@ -55,4 +55,9 @@ class Image
             'height'       => $this->height,
         ];
     }
+
+    public function calcRatio(): void
+    {
+        $this->ratio = $this->height ? $this->width / $this->height : 0;
+    }
 }

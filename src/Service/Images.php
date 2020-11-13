@@ -54,13 +54,14 @@ class Images
     public function upload(UploadedFileInterface $file): Image
     {
         $imagick = new \Imagick();
-        $imagick->readImageBlob($file->getStream());
+        $imagick->readImageBlob($file->getStream()->__toString());
 
         $image = new Image();
         $image->width = $imagick->getImageWidth();
         $image->height = $imagick->getImageHeight();
         $image->size = (int)$file->getSize();
-        $image->thumbnail = $this->createThumbnail($file, $this->createName($file, '-min'));
+        $image->calcRatio();
+        $image->thumbnail = $this->createThumbnail($file, $this->createName($file, 'min'));
         $image->original = $this->createOriginal($file, $this->createName($file));
 
         $this->transaction->persist($image);
@@ -110,9 +111,9 @@ class Images
     private function createName(UploadedFileInterface $file, string $postfix = ''): string
     {
         return sprintf(
-            '%s/%s-%s.%s.%s',
+            '%s/%s-%s-%s.%s',
             date('Y-m'),
-            Strings::random(self::SEED_LENGTH),
+            Strings::slug(Strings::random(self::SEED_LENGTH)),
             Strings::slug(pathinfo($file->getClientFilename(), PATHINFO_FILENAME)),
             $postfix,
             pathinfo($file->getClientFilename(), PATHINFO_EXTENSION)
