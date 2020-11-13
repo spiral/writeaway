@@ -24,7 +24,7 @@ class SaveTest extends TestCase
             ['type' => 'piece', 'id' => 'something', 'data' => $data]
         );
 
-        $this->assertCreated($response, $data);
+        $this->assertPieceStored($response, $data);
     }
 
     /**
@@ -42,7 +42,34 @@ class SaveTest extends TestCase
             ['type' => 'piece', 'id' => 'something']
         );
 
-        $this->assertCreated($response, $data);
+        $this->assertPieceStored($response, $data);
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public function testUpdate(): void
+    {
+        $this->post(
+            $this->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something', 'data' => ['hello', 'world']]
+        );
+        $this->post(
+            $this->uri('writeaway:pieces:get'),
+            ['type' => 'piece', 'id' => 'something']
+        );
+
+        $data = ['2nd', 'attempt'];
+        $this->post(
+            $this->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something', 'data' => $data]
+        );
+        $response = $this->post(
+            $this->uri('writeaway:pieces:get'),
+            ['type' => 'piece', 'id' => 'something']
+        );
+
+        $this->assertPieceStored($response, $data);
     }
 
     /**
@@ -106,7 +133,7 @@ class SaveTest extends TestCase
      * @param array             $data
      * @throws \JsonException
      */
-    private function assertCreated(ResponseInterface $response, array $data): void
+    private function assertPieceStored(ResponseInterface $response, array $data): void
     {
         $output = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
 
