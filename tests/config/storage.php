@@ -1,10 +1,7 @@
 <?php
-/**
- * Storage manager configuration. Attention, configs might include runtime code which depended on
- * environment values only.
- *
- * @see StorageConfig
- */
+
+declare(strict_types=1);
+
 use Spiral\Storage\Server;
 
 return [

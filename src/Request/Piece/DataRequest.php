@@ -22,14 +22,14 @@ class DataRequest extends Filter
         'data' => ['self', 'toArrayIfEmpty']
     ];
 
-    protected function toArrayIfEmpty($input)
-    {
-        return $input ?: [];
-    }
-
     public function getData(): array
     {
         $data = $this->getField('data');
         return is_array($data) ? $data : [];
+    }
+
+    protected function toArrayIfEmpty($input)
+    {
+        return $input ?: [];
     }
 }
