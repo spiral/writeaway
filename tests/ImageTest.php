@@ -41,12 +41,18 @@ class ImageTest extends TestCase
         $this->storage()->open($image->thumbnail)->delete();
     }
 
+    /**
+     * @depends testUpload
+     */
     public function testBadDelete(): void
     {
         $response = $this->post($this->uri('writeaway:images:delete'));
         $this->assertSame(400, $response->getStatusCode());
     }
 
+    /**
+     * @depends testUpload
+     */
     public function testDelete(): void
     {
         $this->upload($this->uri('writeaway:images:upload'), ['image' => $this->file()]);
