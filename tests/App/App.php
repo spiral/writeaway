@@ -13,6 +13,7 @@ use Spiral\Bootloader\Security\GuardBootloader;
 use Spiral\Console\Console;
 use Spiral\Framework\Kernel;
 use Spiral\Http\Http;
+use Spiral\Tests\Writeaway\App\Bootloader\AppBootloader;
 use Spiral\Tests\Writeaway\App\Bootloader\GuestBootloader;
 use Spiral\Writeaway\Bootloader\WriteawayBootloader;
 
@@ -25,14 +26,15 @@ class App extends Kernel
         RouterBootloader::class,
 
         Cycle\CycleBootloader::class,
-        Cycle\AnnotatedBootloader::class,
         WriteawayBootloader::class,
+        Cycle\AnnotatedBootloader::class,
 
         CommandBootloader::class,
         FiltersBootloader::class,
     ];
 
     protected const APP = [
+        AppBootloader::class
     ];
 
     public function getHttp(): Http
