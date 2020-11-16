@@ -34,7 +34,6 @@ class WriteawayBootloader extends Bootloader
     ];
     protected const BINDINGS     = [
         MetaProviderInterface::class => NullMetaProvider::class,
-        CoreInterface::class         => [self::class, 'domainCore']
     ];
 
     private const CONFIG = WriteawayConfig::CONFIG;
