@@ -128,6 +128,24 @@ class SaveTest extends TestCase
         $this->assertSame('view', $location->view);
     }
 
+    public function testSameLocation(): void
+    {
+        $this->post(
+            $this->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something', 'namespace' => 'ns', 'view' => 'view']
+        );
+        $this->post(
+            $this->uri('writeaway:pieces:save'),
+            ['type' => 'piece', 'id' => 'something', 'namespace' => 'ns', 'view' => 'view']
+        );
+
+        /** @var Piece|null $piece */
+        $piece = $this->repository()->findOne();
+
+        $this->assertInstanceOf(Piece::class, $piece);
+        $this->assertCount(1, $piece->locations);
+    }
+
     /**
      * @param ResponseInterface $response
      * @param array             $data
