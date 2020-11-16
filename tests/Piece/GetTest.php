@@ -32,7 +32,6 @@ class GetTest extends TestCase
 
     public function testValidGet(): void
     {
-        $this->assertCount(0, $this->repository()->select());
         $this->post(
             $this->uri('writeaway:pieces:get'),
             ['type' => 'piece', 'id' => 'something']
@@ -46,9 +45,6 @@ class GetTest extends TestCase
      */
     public function testDropCommand(): void
     {
-        $this->logSchema();
-        $this->assertCount(0, $this->repository()->select());
-
         $this->post($this->uri('writeaway:pieces:save'), ['type' => 'piece', 'id' => 'name']);
         $this->assertCount(1, $this->repository()->select());
 
