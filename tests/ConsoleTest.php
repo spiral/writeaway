@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Writeaway;
 
-class CommandTest extends TestCase
+class ConsoleTest extends TestCase
 {
     use HttpTrait;
 
     /**
      * @throws \Throwable
      */
-    public function testDrop(): void
+    public function testDropCommand(): void
     {
         $this->logSchema();
         $this->assertCount(0, $this->repository()->select());
