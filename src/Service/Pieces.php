@@ -8,8 +8,10 @@ use Cycle\ORM\TransactionInterface;
 use Spiral\Writeaway\Database\Piece;
 use Spiral\Writeaway\DTO;
 use Spiral\Writeaway\Repository\PieceRepository;
-use Spiral\Writeaway\Typecast;
 
+/**
+ * @internal
+ */
 class Pieces
 {
     private TransactionInterface $transaction;
@@ -57,13 +59,29 @@ class Pieces
      */
     public function save(Piece $piece, array $data, DTO\Location $location): void
     {
-        $piece->data = new Typecast\Json($data);
-        $piece->meta = Typecast\Meta::fromDTO($this->metaProvider->provide());
-        if ($location->filled && !$piece->hasLocation($location)) {
-            $piece->locations->add(Piece\Location::createFromDTO($location));
-        }
+        $updatedData = $piece->updateData($data);
+        $updatedMeta = $piece->updateMeta($this->metaProvider->provide());
+        $updatedLocation = $piece->addLocation($location);
 
-        $this->transaction->persist($piece);
-        $this->transaction->run();
+        if ($updatedData || $updatedMeta || $updatedLocation) {
+            $this->transaction->persist($piece);
+            $this->transaction->run();
+        }
+    }
+
+    /**
+     * @param Piece        $piece
+     * @param DTO\Location $location
+     * @throws \Throwable
+     */
+    public function saveMeta(Piece $piece, DTO\Location $location): void
+    {
+        $updatedMeta = $piece->updateMeta($this->metaProvider->provide());
+        $updatedLocation = $piece->addLocation($location);
+
+        if ($updatedMeta || $updatedLocation) {
+            $this->transaction->persist($piece);
+            $this->transaction->run();
+        }
     }
 }

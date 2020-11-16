@@ -67,7 +67,36 @@ class Piece
         ];
     }
 
-    public function hasLocation(DTO\Location $locationDTO): bool
+    public function updateData(array $data): bool
+    {
+        if ($this->data->toArray() === $data) {
+            return false;
+        }
+
+        $this->data = new Typecast\Json($data);
+        return true;
+    }
+
+    public function updateMeta(DTO\Meta $meta): bool
+    {
+        if ($this->meta->toArray() === Typecast\Meta::fromDTO($meta)->toArray()) {
+            return false;
+        }
+
+        $this->meta = Typecast\Meta::fromDTO($meta);
+        return true;
+    }
+
+    public function addLocation(DTO\Location $location): bool
+    {
+        if ($location->filled && !$this->hasLocation($location)) {
+            $this->locations->add(Piece\Location::createFromDTO($location));
+            return true;
+        }
+        return false;
+    }
+
+    private function hasLocation(DTO\Location $locationDTO): bool
     {
         foreach ($this->locations as $location) {
             if ($location->isSame($locationDTO)) {
