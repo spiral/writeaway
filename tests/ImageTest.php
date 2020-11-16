@@ -67,6 +67,27 @@ class ImageTest extends TestCase
         $this->assertFalse($original->exists());
     }
 
+    /**
+     * @depends testUpload
+     * @throws \JsonException
+     */
+    public function testList(): void
+    {
+        $response = $this->post($this->uri('writeaway:images:list'));
+        $output = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertEmpty($output['data']);
+
+        $this->upload($this->uri('writeaway:images:upload'), ['image' => $this->file()]);
+        $response = $this->post($this->uri('writeaway:images:list'));
+        $output = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertCount(1, $output['data']);
+
+        /** @var Image|null $image */
+        $image = $this->images()->findOne();
+        $this->storage()->open($image->original)->delete();
+        $this->storage()->open($image->thumbnail)->delete();
+    }
+
     private function file(): UploadedFileInterface
     {
         return new UploadedFile(
