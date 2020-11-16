@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Writeaway;
 
+use Cycle\ORM\ORMInterface;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Spiral\Boot\Environment;
 use Spiral\Router\RouterInterface;
@@ -36,6 +37,13 @@ abstract class TestCase extends BaseTestCase
     protected function repository(): PieceRepository
     {
         return $this->app->get(PieceRepository::class);
+    }
+
+    protected function logSchema(): void
+    {
+        /** @var ORMInterface $orm */
+        $orm = $this->app->get(ORMInterface::class);
+        dump($orm->getSchema());
     }
 
     private function router(): RouterInterface

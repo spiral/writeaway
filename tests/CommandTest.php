@@ -13,7 +13,8 @@ class CommandTest extends TestCase
      */
     public function testDrop(): void
     {
-//        $this->assertCount(0, $this->repository()->select());
+        $this->logSchema();
+        $this->assertCount(0, $this->repository()->select());
 
         $this->post($this->uri('writeaway:pieces:save'), ['type' => 'piece', 'id' => 'name']);
         $this->assertCount(1, $this->repository()->select());
