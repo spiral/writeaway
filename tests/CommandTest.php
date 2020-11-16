@@ -13,7 +13,6 @@ class CommandTest extends TestCase
      */
     public function testDrop(): void
     {
-        $this->app->getConsole()->run('cycle:sync');
         $this->assertCount(0, $this->repository()->select());
 
         $this->post($this->uri('writeaway:pieces:save'), ['type' => 'piece', 'id' => 'name']);
