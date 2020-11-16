@@ -32,6 +32,7 @@ class GetTest extends TestCase
 
     public function testValidGet(): void
     {
+        $this->assertCount(0, $this->repository()->select());
         $this->post(
             $this->uri('writeaway:pieces:get'),
             ['type' => 'piece', 'id' => 'something']
