@@ -4,21 +4,36 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway;
 
+use Spiral\Security\GuardInterface;
+use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Database\Piece;
 use Spiral\Writeaway\DTO\Location;
 use Spiral\Writeaway\DTO\PieceID;
 use Spiral\Writeaway\Repository\PieceRepository;
-use Spiral\Writeaway\Service\Pieces as Service;
+use Spiral\Writeaway\Service\Pieces;
 
-class Pieces
+class Editor
 {
-    private Service $pieces;
-    private PieceRepository $pieceRepository;
+    private Pieces $pieces;
+    private PieceRepository $repository;
+    private GuardInterface $guard;
+    private WriteawayConfig $config;
 
-    public function __construct(Service $service, PieceRepository $pieceRepository)
+    public function __construct(
+        Pieces $pieces,
+        PieceRepository $repository,
+        GuardInterface $guard,
+        WriteawayConfig $config
+    ) {
+        $this->pieces = $pieces;
+        $this->repository = $repository;
+        $this->guard = $guard;
+        $this->config = $config;
+    }
+
+    public function allows(string $type, string $name): bool
     {
-        $this->pieces = $service;
-        $this->pieceRepository = $pieceRepository;
+        return $this->guard->allows($this->config->editPermission(), compact('type', 'name'));
     }
 
     /**
@@ -30,7 +45,7 @@ class Pieces
      * @return array
      * @throws \Throwable
      */
-    public function get(
+    public function getPiece(
         string $type,
         string $name,
         array $defaults = [],
@@ -40,7 +55,7 @@ class Pieces
         $id = PieceID::create($type, $name);
         $location = new Location($namespace, $view);
 
-        $piece = $this->pieceRepository->findByPK($id->id());
+        $piece = $this->repository->findByPK($id->id());
         if (!$piece instanceof Piece) {
             $piece = new Piece($id);
             $this->pieces->save($piece, $defaults, $location);
