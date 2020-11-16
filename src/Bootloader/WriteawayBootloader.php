@@ -16,9 +16,11 @@ use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\Route;
 use Spiral\Router\RouterInterface;
 use Spiral\Router\Target\Action;
+use Spiral\Stempler\Bootloader\StemplerBootloader;
 use Spiral\Writeaway\Command\DropCommand;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Controller;
+use Spiral\Writeaway\Directive\EditorDirective;
 use Spiral\Writeaway\Middleware\AccessMiddleware;
 use Spiral\Writeaway\Service\MetaProviderInterface;
 use Spiral\Writeaway\Service\NullMetaProvider;
@@ -27,6 +29,7 @@ class WriteawayBootloader extends Bootloader
 {
     protected const DEPENDENCIES = [
         ConsoleBootloader::class,
+        StemplerBootloader::class,
     ];
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
@@ -50,7 +53,8 @@ class WriteawayBootloader extends Bootloader
     public function boot(
         ConfiguratorInterface $config,
         ConsoleBootloader $console,
-        TokenizerBootloader $tokenizer
+        TokenizerBootloader $tokenizer,
+        StemplerBootloader $stempler
     ): void {
         $config->setDefaults(
             self::CONFIG,
@@ -65,6 +69,7 @@ class WriteawayBootloader extends Bootloader
         $this->registerRoutes();
         $console->addCommand(DropCommand::class);
         $tokenizer->addDirectory(dirname(__DIR__) . '/Database');
+        $stempler->addDirective(EditorDirective::class);
     }
 
     private function registerRoutes(): void
