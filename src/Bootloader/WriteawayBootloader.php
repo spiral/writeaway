@@ -29,7 +29,6 @@ class WriteawayBootloader extends Bootloader
 {
     protected const DEPENDENCIES = [
         ConsoleBootloader::class,
-        StemplerBootloader::class,
     ];
     protected const INTERCEPTORS = [
         CycleInterceptor::class,
@@ -53,8 +52,7 @@ class WriteawayBootloader extends Bootloader
     public function boot(
         ConfiguratorInterface $config,
         ConsoleBootloader $console,
-        TokenizerBootloader $tokenizer,
-        StemplerBootloader $stempler
+        TokenizerBootloader $tokenizer
     ): void {
         $config->setDefaults(
             self::CONFIG,
@@ -69,7 +67,6 @@ class WriteawayBootloader extends Bootloader
         $this->registerRoutes();
         $console->addCommand(DropCommand::class);
         $tokenizer->addDirectory(dirname(__DIR__) . '/Database');
-        $stempler->addDirective(EditorDirective::class);
     }
 
     private function registerRoutes(): void
