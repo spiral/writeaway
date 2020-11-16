@@ -69,6 +69,15 @@ class ImageTest extends TestCase
 
     /**
      * @depends testUpload
+     */
+    public function testInvalidDelete(): void
+    {
+        $response = $this->post($this->uri('writeaway:images:delete'), ['id' => 12345]);
+        $this->assertSame(400, $response->getStatusCode());
+    }
+
+    /**
+     * @depends testUpload
      * @throws \JsonException
      */
     public function testList(): void
