@@ -33,9 +33,7 @@ class App extends Kernel
         FiltersBootloader::class,
     ];
 
-    protected const APP = [
-        AppBootloader::class
-    ];
+    protected const APP = [];
 
     public function getHttp(): Http
     {
