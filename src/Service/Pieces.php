@@ -8,19 +8,18 @@ use Cycle\ORM\TransactionInterface;
 use Spiral\Writeaway\Database\Piece;
 use Spiral\Writeaway\DTO;
 use Spiral\Writeaway\Repository\PieceRepository;
-use Spiral\Writeaway\Service\Meta\ProviderInterface;
 use Spiral\Writeaway\Typecast;
 
 class Pieces
 {
     private TransactionInterface $transaction;
     private PieceRepository $pieceRepository;
-    private ProviderInterface $metaProvider;
+    private MetaProviderInterface $metaProvider;
 
     public function __construct(
         TransactionInterface $transaction,
         PieceRepository $pieceRepository,
-        ProviderInterface $metaProvider
+        MetaProviderInterface $metaProvider
     ) {
         $this->transaction = $transaction;
         $this->pieceRepository = $pieceRepository;

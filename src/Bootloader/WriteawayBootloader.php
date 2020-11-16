@@ -20,7 +20,6 @@ use Spiral\Writeaway\Command\DropCommand;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Controller;
 use Spiral\Writeaway\Middleware\AccessMiddleware;
-use Spiral\Writeaway\Service\Meta;
 
 class WriteawayBootloader extends Bootloader
 {
@@ -32,8 +31,7 @@ class WriteawayBootloader extends Bootloader
         FilterInterceptor::class
     ];
     protected const BINDINGS     = [
-        Meta\ProviderInterface::class => Meta\DummyProvider::class,
-        CoreInterface::class          => [self::class, 'domainCore']
+        CoreInterface::class => [self::class, 'domainCore']
     ];
 
     private const CONFIG = WriteawayConfig::CONFIG;
