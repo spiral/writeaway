@@ -51,13 +51,4 @@ class Json
     {
         return $this->values;
     }
-
-    /**
-     * @return string
-     * @throws JsonException
-     */
-    public function prettyPrint(): string
-    {
-        return json_encode($this->values, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
-    }
 }
