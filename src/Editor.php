@@ -34,7 +34,7 @@ class Editor
         $this->metaProvider = $metaProvider;
     }
 
-    public function allows(string $type, string $name): bool
+    public function allows(string $type = null, string $name = null): bool
     {
         return $this->guard->allows($this->config->editPermission(), compact('type', 'name'));
     }
