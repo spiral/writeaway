@@ -7,6 +7,7 @@ namespace Spiral\Writeaway\Service;
 use Cycle\ORM\TransactionInterface;
 use Spiral\Writeaway\Database\Piece;
 use Spiral\Writeaway\DTO;
+use Spiral\Writeaway\MetaProviderInterface;
 use Spiral\Writeaway\Repository\PieceRepository;
 
 /**

@@ -18,17 +18,20 @@ class Editor
     private PieceRepository $repository;
     private GuardInterface $guard;
     private WriteawayConfig $config;
+    private MetaProviderInterface $metaProvider;
 
     public function __construct(
         Pieces $pieces,
         PieceRepository $repository,
         GuardInterface $guard,
-        WriteawayConfig $config
+        WriteawayConfig $config,
+        MetaProviderInterface $metaProvider
     ) {
         $this->pieces = $pieces;
         $this->repository = $repository;
         $this->guard = $guard;
         $this->config = $config;
+        $this->metaProvider = $metaProvider;
     }
 
     public function allows(string $type, string $name): bool
@@ -64,5 +67,10 @@ class Editor
 
         $this->pieces->saveMeta($piece, $location);
         return $piece->data->toArray();
+    }
+
+    public function getMeta(): array
+    {
+        return $this->metaProvider->provide()->toArray();
     }
 }

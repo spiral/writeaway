@@ -16,13 +16,11 @@ use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\Route;
 use Spiral\Router\RouterInterface;
 use Spiral\Router\Target\Action;
-use Spiral\Stempler\Bootloader\StemplerBootloader;
 use Spiral\Writeaway\Command\DropCommand;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Controller;
-use Spiral\Writeaway\Directive\EditorDirective;
+use Spiral\Writeaway\MetaProviderInterface;
 use Spiral\Writeaway\Middleware\AccessMiddleware;
-use Spiral\Writeaway\Service\MetaProviderInterface;
 use Spiral\Writeaway\Service\NullMetaProvider;
 
 class WriteawayBootloader extends Bootloader

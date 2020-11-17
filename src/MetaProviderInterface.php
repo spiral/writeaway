@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Writeaway\Service;
+namespace Spiral\Writeaway;
 
 use Spiral\Writeaway\DTO\Meta;
 
