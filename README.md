@@ -9,10 +9,12 @@ MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maint
 - add tests for public services
 
 ## Usage
-- Register `WriteawayBootloader` in the App.
-> Note that is uses `TokenizerBootloader` so it must be registered before `CommandsBootloader`
-> and after `RouterBootloader`, `Cycle\AnnotatedBootloader`.
+- Register `WriteawayBootloader` in the App
+> Note that it must be registered and after `RouterBootloader`.
 - Implement `MetaProviderInterface`
+- `WriteawayCommandBootloader` can be added if you want to have a reset command.
+> Note that it uses `TokenizerBootloader` so it must be registered before `CommandsBootloader`.
+- `WriteawayViewsBootloader` can be added if you want use ready views bundle.
 
 ## API Endpoints:
 ### List Images

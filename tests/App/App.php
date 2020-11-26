@@ -13,9 +13,8 @@ use Spiral\Bootloader\Security\GuardBootloader;
 use Spiral\Console\Console;
 use Spiral\Framework\Kernel;
 use Spiral\Http\Http;
-use Spiral\Tests\Writeaway\App\Bootloader\AppBootloader;
 use Spiral\Tests\Writeaway\App\Bootloader\GuestBootloader;
-use Spiral\Writeaway\Bootloader\WriteawayBootloader;
+use Spiral\Writeaway\Bootloader;
 
 class App extends Kernel
 {
@@ -26,9 +25,11 @@ class App extends Kernel
         RouterBootloader::class,
 
         Cycle\CycleBootloader::class,
-        WriteawayBootloader::class,
         Cycle\AnnotatedBootloader::class,
 
+        Bootloader\WriteawayBootloader::class,
+        Bootloader\WriteawayCommandBootloader::class,
+        Bootloader\WriteawayViewsBootloader::class,
         CommandBootloader::class,
         FiltersBootloader::class,
     ];
