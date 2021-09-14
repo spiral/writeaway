@@ -8,7 +8,7 @@ use Cycle\ORM\TransactionInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Files\FilesInterface;
 use Spiral\Helpers\Strings;
-use Spiral\Storage\StorageManager;
+use Spiral\Storage\Storage;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Database\Image;
 use Spiral\Writeaway\Repository\ImageRepository;
@@ -19,14 +19,14 @@ class Images
 
     private WriteawayConfig $config;
     private ImageRepository $imageRepository;
-    private StorageManager $storage;
+    private Storage $storage;
     private FilesInterface $files;
     private TransactionInterface $transaction;
 
     public function __construct(
         WriteawayConfig $config,
         ImageRepository $imageRepository,
-        StorageManager $storage,
+        Storage $storage,
         FilesInterface $files,
         TransactionInterface $transaction
     ) {
@@ -76,8 +76,9 @@ class Images
      */
     public function delete(Image $image): void
     {
-        $this->storage->open($image->original)->delete();
-        $this->storage->open($image->thumbnail)->delete();
+        $bucket = $this->config->imageStorage();
+        $this->storage->bucket($bucket)->delete($image->original);
+        $this->storage->bucket($bucket)->delete($image->thumbnail);
 
         //todo track pieces with images
 
@@ -100,12 +101,18 @@ class Images
         $tempFile = $this->files->tempFilename();
         $imagick->writeImage($tempFile);
 
-        return $this->storage->put($this->config->imageStorage(), $filename, $tempFile)->getAddress();
+        $bucket = $this->config->imageStorage();
+        $file = $this->storage->bucket($bucket)->write($filename, $tempFile);
+
+        return $file->getId();
     }
 
     private function createOriginal(UploadedFileInterface $file, string $filename): string
     {
-        return $this->storage->put($this->config->imageStorage(), $filename, $file->getStream())->getAddress();
+        $bucket = $this->config->imageStorage();
+        $file = $this->storage->bucket($bucket)->write($filename, $file->getStream());
+
+        return $file->getId();
     }
 
     private function createName(UploadedFileInterface $file, string $postfix = ''): string

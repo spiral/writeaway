@@ -4,14 +4,15 @@
   "description": "PHP API server for Writeaway editor",
   "license": "MIT",
   "require": {
-    "php": "^7.4",
-    "spiral/storage": "^2.1",
+    "php": ">=7.4",
+    "ext-imagick": "*",
     "spiral/helpers": "^1.0",
-    "spiral/framework": "^2.6",
+    "spiral/framework": "^2.8",
     "cycle/orm": "^1.2",
     "cycle/annotated": "^2.0"
   },
   "require-dev": {
+    "ext-sqlite3": "*",
     "phpunit/phpunit": "^9.4",
     "spiral/code-style": "^1.0",
     "laminas/laminas-diactoros": "^2.4"

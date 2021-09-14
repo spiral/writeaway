@@ -6,7 +6,7 @@ namespace Spiral\Tests\Writeaway;
 
 use Laminas\Diactoros\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
-use Spiral\Storage\StorageManager;
+use Spiral\Storage\Storage;
 use Spiral\Writeaway\Database\Image;
 use Spiral\Writeaway\Repository\ImageRepository;
 
@@ -33,12 +33,10 @@ class ImageTest extends TestCase
         $image = $this->images()->findOne();
         $this->assertInstanceOf(Image::class, $image);
 
-        $original = $this->storage()->open($image->original);
-        $this->assertTrue($original->exists());
-        $this->assertSame($this->filesize(), $original->getSize());
+        $this->assertTrue($this->storage()->exists($image->original));
+        $this->assertSame($this->filesize(), $this->storage()->getSize($image->original));
 
-        $original->delete();
-        $this->storage()->open($image->thumbnail)->delete();
+        $this->storage()->delete($image->thumbnail);
     }
 
     /**
@@ -63,8 +61,8 @@ class ImageTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertCount(0, $this->images()->select());
 
-        $original = $this->storage()->open($image->original);
-        $this->assertFalse($original->exists());
+        $this->storage()->delete($image->original);
+        $this->assertFalse($this->storage()->exists($image->original));
     }
 
     /**
@@ -93,8 +91,8 @@ class ImageTest extends TestCase
 
         /** @var Image|null $image */
         $image = $this->images()->findOne();
-        $this->storage()->open($image->original)->delete();
-        $this->storage()->open($image->thumbnail)->delete();
+        $this->storage()->delete($image->original);
+        $this->storage()->delete($image->thumbnail);
     }
 
     private function file(): UploadedFileInterface
@@ -117,8 +115,8 @@ class ImageTest extends TestCase
         return $this->app->get(ImageRepository::class);
     }
 
-    private function storage(): StorageManager
+    private function storage(): Storage
     {
-        return $this->app->get(StorageManager::class);
+        return $this->app->get(Storage::class);
     }
 }
