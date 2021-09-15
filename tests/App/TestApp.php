@@ -16,7 +16,7 @@ use Spiral\Http\Http;
 use Spiral\Tests\Writeaway\App\Bootloader\GuestBootloader;
 use Spiral\Writeaway\Bootloader;
 
-class App extends Kernel
+class TestApp extends Kernel
 {
     protected const LOAD = [
         DiactorosBootloader::class,
@@ -46,8 +46,16 @@ class App extends Kernel
         return $this->container->get(Console::class);
     }
 
-    public function get(string $class)
+    /**
+     * Get object from the container.
+     *
+     * @param string      $alias
+     * @param string|null $context
+     * @return mixed|object|null
+     * @throws \Throwable
+     */
+    public function get($alias, string $context = null)
     {
-        return $this->container->get($class);
+        return $this->container->get($alias, $context);
     }
 }

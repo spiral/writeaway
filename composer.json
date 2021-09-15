@@ -13,6 +13,7 @@
   },
   "require-dev": {
     "ext-sqlite3": "*",
+    "spiral/roadrunner": "*",
     "phpunit/phpunit": "^9.4",
     "spiral/code-style": "^1.0",
     "laminas/laminas-diactoros": "^2.4"

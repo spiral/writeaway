@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Spiral\Tests\Writeaway;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Spiral\Boot\DirectoriesInterface;
 use Spiral\Boot\Environment;
+use Spiral\Files\Files;
 use Spiral\Router\RouterInterface;
-use Spiral\Tests\Writeaway\App\App;
+use Spiral\Tests\Writeaway\App\TestApp;
 use Spiral\Writeaway\Repository\PieceRepository;
 
 /**
@@ -15,7 +17,7 @@ use Spiral\Writeaway\Repository\PieceRepository;
  */
 abstract class TestCase extends BaseTestCase
 {
-    protected ?App $app = null;
+    protected ?TestApp $app = null;
     private bool $synced = false;
 
     /**
@@ -26,6 +28,16 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->makeApp();
         $this->sync();
+    }
+
+    protected function tearDown(): void
+    {
+        $fs = new Files();
+
+        $runtime = $this->app->get(DirectoriesInterface::class)->get('runtime');
+        if ($fs->isDirectory($runtime)) {
+            $fs->deleteDirectory($runtime);
+        }
     }
 
     protected function uri(string $name): string
@@ -56,8 +68,8 @@ abstract class TestCase extends BaseTestCase
                 'public' => __DIR__ . '/public/',
             ];
 
-            /** @var App $app */
-            $app = App::init($config, new Environment(['DEBUG' => true]), false);
+            /** @var TestApp $app */
+            $app = TestApp::init($config, new Environment(['DEBUG' => true]), false);
             $this->app = $app;
         }
     }
