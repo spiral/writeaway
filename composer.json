@@ -4,7 +4,7 @@
   "description": "PHP API server for Writeaway editor",
   "license": "MIT",
   "require": {
-    "php": "^7.4",
+    "php": ">=7.4",
     "spiral/storage": "^2.1",
     "spiral/helpers": "^1.0",
     "spiral/framework": "^2.6",
