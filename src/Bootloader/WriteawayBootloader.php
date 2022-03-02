@@ -38,9 +38,6 @@ class WriteawayBootloader extends Bootloader
 
     private const CONFIG = WriteawayConfig::CONFIG;
 
-    private CoreInterface $core;
-    private RouterInterface $router;
-
     public function boot(
         ConfiguratorInterface $config,
         ConsoleBootloader $console,
@@ -63,13 +60,10 @@ class WriteawayBootloader extends Bootloader
 
     public function start(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
     {
-        $this->core = $this->domainCore($core, $container);
-        $this->router = $router;
-
-        $this->registerRoutes();
+        $this->registerRoutes($core, $router, $container);
     }
 
-    private function registerRoutes(): void
+    private function registerRoutes(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
     {
         $names = [
             'writeaway:images:list',
@@ -105,8 +99,8 @@ class WriteawayBootloader extends Bootloader
         ];
 
         foreach ($names as $name) {
-            $route = new Route($patterns[$name], $actions[$name]->withCore($this->core));
-            $this->router->setRoute(
+            $route = new Route($patterns[$name], $actions[$name]->withCore($this->domainCore($core, $container)));
+            $router->setRoute(
                 $name,
                 $route->withMiddleware(AccessMiddleware::class)->withVerbs(...$verbs[$name])
             );
