@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Spiral\Database\Driver\SQLite\SQLiteDriver;
+use Cycle\Database\Config;
 
 return [
     'default'   => 'default',
@@ -12,9 +12,8 @@ return [
         ],
     ],
     'drivers'   => [
-        'sqlite' => [
-            'driver'     => SQLiteDriver::class,
-            'connection' => 'sqlite::memory:'
-        ],
+        'sqlite' => new Config\SQLiteDriverConfig(
+            queryCache: true,
+        ),
     ],
 ];
