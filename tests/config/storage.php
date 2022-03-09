@@ -13,6 +13,7 @@ return [
     'buckets' => [
         'uploads' => [
             'server'  => 'local',
+            'distribution' => 'local',
         ],
     ]
 ];

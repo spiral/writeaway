@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Tests\Writeaway\App;
 
 use Spiral\Bootloader\CommandBootloader;
+use Spiral\Bootloader\Distribution\DistributionBootloader;
 use Spiral\Bootloader\Http\DiactorosBootloader;
 use Spiral\Bootloader\Http\RouterBootloader;
 use Spiral\Bootloader\Security\FiltersBootloader;
@@ -25,6 +26,7 @@ class App extends Kernel
         GuestBootloader::class,
         RouterBootloader::class,
         StorageBootloader::class,
+        DistributionBootloader::class,
 
         CycleOrm\CycleOrmBootloader::class,
         CycleOrm\AnnotatedBootloader::class,

@@ -29,7 +29,7 @@ class Images
     public function list(): array
     {
         return array_map(
-            static fn (Image $image): array => $image->pack(),
+            fn (Image $image): array => $image->pack($this->storage),
             $this->imageRepository->select()->fetchAll()
         );
     }
