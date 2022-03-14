@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Spiral\Tests\Writeaway\App;
 
 use Spiral\Bootloader\CommandBootloader;
-use Spiral\Bootloader\Cycle;
+use Spiral\Bootloader\Distribution\DistributionBootloader;
 use Spiral\Bootloader\Http\DiactorosBootloader;
 use Spiral\Bootloader\Http\RouterBootloader;
 use Spiral\Bootloader\Security\FiltersBootloader;
 use Spiral\Bootloader\Security\GuardBootloader;
+use Spiral\Bootloader\Storage\StorageBootloader;
 use Spiral\Console\Console;
+use Spiral\Cycle\Bootloader as CycleOrm;
 use Spiral\Framework\Kernel;
 use Spiral\Http\Http;
 use Spiral\Tests\Writeaway\App\Bootloader\GuestBootloader;
@@ -23,9 +25,12 @@ class App extends Kernel
         GuardBootloader::class,
         GuestBootloader::class,
         RouterBootloader::class,
+        StorageBootloader::class,
+        DistributionBootloader::class,
 
-        Cycle\CycleBootloader::class,
-        Cycle\AnnotatedBootloader::class,
+        CycleOrm\CycleOrmBootloader::class,
+        CycleOrm\AnnotatedBootloader::class,
+        CycleOrm\CommandBootloader::class,
 
         Bootloader\WriteawayBootloader::class,
         Bootloader\WriteawayCommandBootloader::class,

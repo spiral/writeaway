@@ -6,6 +6,7 @@ namespace Spiral\Writeaway\Controller;
 
 use Spiral\Http\Exception\ClientException\ServerErrorException;
 use Spiral\Logger\Traits\LoggerTrait;
+use Spiral\Storage\Storage;
 use Spiral\Writeaway\Database\Image;
 use Spiral\Writeaway\Repository\ImageRepository;
 use Spiral\Writeaway\Request\Image\ImageRequest;
@@ -31,11 +32,11 @@ class ImageController
         ];
     }
 
-    public function upload(UploadImageRequest $request): array
+    public function upload(UploadImageRequest $request, Storage $storage): array
     {
         try {
             // todo multiple image upload
-            $image = $this->images->upload($request->image);
+            $image = $this->images->upload($request->image)->pack($storage);
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Image upload failed', compact('exception'));
             throw new ServerErrorException('Image upload failed', $exception);
@@ -43,7 +44,7 @@ class ImageController
 
         return [
             'status' => 200,
-            'data'   => [$image->pack()],
+            'data'   => [$image],
         ];
     }
 

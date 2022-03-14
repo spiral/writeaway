@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Service;
 
-use Cycle\ORM\TransactionInterface;
+use Cycle\ORM\EntityManagerInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Files\FilesInterface;
 use Spiral\Helpers\Strings;
-use Spiral\Storage\StorageManager;
+use Spiral\Storage\Storage;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Database\Image;
 use Spiral\Writeaway\Repository\ImageRepository;
@@ -17,37 +17,24 @@ class Images
 {
     private const SEED_LENGTH = 8;
 
-    private WriteawayConfig $config;
-    private ImageRepository $imageRepository;
-    private StorageManager $storage;
-    private FilesInterface $files;
-    private TransactionInterface $transaction;
-
     public function __construct(
-        WriteawayConfig $config,
-        ImageRepository $imageRepository,
-        StorageManager $storage,
-        FilesInterface $files,
-        TransactionInterface $transaction
+        private WriteawayConfig $config,
+        private ImageRepository $imageRepository,
+        private Storage $storage,
+        private FilesInterface $files,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->config = $config;
-        $this->imageRepository = $imageRepository;
-        $this->storage = $storage;
-        $this->files = $files;
-        $this->transaction = $transaction;
     }
 
     public function list(): array
     {
         return array_map(
-            static fn (Image $image): array => $image->pack(),
+            fn (Image $image): array => $image->pack($this->storage),
             $this->imageRepository->select()->fetchAll()
         );
     }
 
     /**
-     * @param UploadedFileInterface $file
-     * @return Image
      * @throws \ImagickException
      * @throws \Throwable
      */
@@ -64,8 +51,8 @@ class Images
         $image->thumbnail = $this->createThumbnail($file, $this->createName($file, 'min'));
         $image->original = $this->createOriginal($file, $this->createName($file));
 
-        $this->transaction->persist($image);
-        $this->transaction->run();
+        $this->entityManager->persist($image);
+        $this->entityManager->run();
 
         return $image;
     }
@@ -76,13 +63,14 @@ class Images
      */
     public function delete(Image $image): void
     {
-        $this->storage->open($image->original)->delete();
-        $this->storage->open($image->thumbnail)->delete();
+        $bucket = $this->config->imageStorage();
+        $this->storage->bucket($bucket)->delete($image->original);
+        $this->storage->bucket($bucket)->delete($image->thumbnail);
 
         //todo track pieces with images
 
-        $this->transaction->delete($image);
-        $this->transaction->run();
+        $this->entityManager->delete($image);
+        $this->entityManager->run();
     }
 
     /**
@@ -100,12 +88,12 @@ class Images
         $tempFile = $this->files->tempFilename();
         $imagick->writeImage($tempFile);
 
-        return $this->storage->put($this->config->imageStorage(), $filename, $tempFile)->getAddress();
+        return $this->storage->bucket($this->config->imageStorage())->write($filename, $tempFile)->getId();
     }
 
     private function createOriginal(UploadedFileInterface $file, string $filename): string
     {
-        return $this->storage->put($this->config->imageStorage(), $filename, $file->getStream())->getAddress();
+        return $this->storage->bucket($this->config->imageStorage())->write($filename, $file->getStream())->getId();
     }
 
     private function createName(UploadedFileInterface $file, string $postfix = ''): string

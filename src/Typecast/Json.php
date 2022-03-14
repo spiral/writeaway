@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Spiral\Writeaway\Typecast;
 
 use JsonException;
-use Spiral\Database\DatabaseInterface;
+use Cycle\Database\DatabaseInterface;
 
 class Json
 {
-    private array $values;
-
-    public function __construct(array $values = [])
-    {
-        $this->values = $values;
+    public function __construct(
+        private array $values = []
+    ) {
     }
 
     /**

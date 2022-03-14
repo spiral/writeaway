@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Writeaway\Bootloader;
 
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Bootloader\ConsoleBootloader;
+use Spiral\Console\Bootloader\ConsoleBootloader;
 use Spiral\Writeaway\Command\DropCommand;
 
 class WriteawayCommandBootloader extends Bootloader

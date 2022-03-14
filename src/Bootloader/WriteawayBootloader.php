@@ -6,12 +6,12 @@ namespace Spiral\Writeaway\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Bootloader\ConsoleBootloader;
-use Spiral\Bootloader\TokenizerBootloader;
+use Spiral\Console\Bootloader\ConsoleBootloader;
+use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\CoreInterface;
 use Spiral\Core\InterceptableCore;
-use Spiral\Domain\CycleInterceptor;
+use Spiral\Cycle\Interceptor\CycleInterceptor;
 use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\Route;
 use Spiral\Router\RouterInterface;
@@ -38,15 +38,6 @@ class WriteawayBootloader extends Bootloader
 
     private const CONFIG = WriteawayConfig::CONFIG;
 
-    private CoreInterface $core;
-    private RouterInterface $router;
-
-    public function __construct(CoreInterface $core, RouterInterface $router, ContainerInterface $container)
-    {
-        $this->core = $this->domainCore($core, $container);
-        $this->router = $router;
-    }
-
     public function boot(
         ConfiguratorInterface $config,
         ConsoleBootloader $console,
@@ -62,12 +53,17 @@ class WriteawayBootloader extends Bootloader
                 ]
             ]
         );
-        $this->registerRoutes();
+
         $console->addCommand(DropCommand::class);
         $tokenizer->addDirectory(dirname(__DIR__) . '/Database');
     }
 
-    private function registerRoutes(): void
+    public function start(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
+    {
+        $this->registerRoutes($core, $router, $container);
+    }
+
+    private function registerRoutes(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
     {
         $names = [
             'writeaway:images:list',
@@ -103,8 +99,8 @@ class WriteawayBootloader extends Bootloader
         ];
 
         foreach ($names as $name) {
-            $route = new Route($patterns[$name], $actions[$name]->withCore($this->core));
-            $this->router->setRoute(
+            $route = new Route($patterns[$name], $actions[$name]->withCore($this->domainCore($core, $container)));
+            $router->setRoute(
                 $name,
                 $route->withMiddleware(AccessMiddleware::class)->withVerbs(...$verbs[$name])
             );

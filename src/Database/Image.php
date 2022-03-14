@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Writeaway\Database;
 
 use Cycle\Annotated\Annotation as Cycle;
+use Spiral\Storage\Storage;
 use Spiral\Writeaway\Mapper\TimestampsMapper;
 use Spiral\Writeaway\Mapper\Traits\Timestamps;
 use Spiral\Writeaway\Repository\ImageRepository;
@@ -45,12 +46,12 @@ class Image
      */
     public string $original;
 
-    public function pack(): array
+    public function pack(?Storage $storage = null): array
     {
         return [
             'id'           => $this->id,
-            'src'          => $this->original,
-            'thumbnailSrc' => $this->thumbnail,
+            'src'          => isset($storage) ? (string) $storage->file($this->original)->toUri() : $this->original,
+            'thumbnailSrc' => isset($storage) ? (string) $storage->file($this->thumbnail)->toUri() : $this->thumbnail,
             'width'        => $this->width,
             'height'       => $this->height,
         ];
