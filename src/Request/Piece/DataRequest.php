@@ -4,32 +4,23 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Request\Piece;
 
-use Spiral\Filters\Filter;
+use Spiral\Filters\Attribute\Input\Post;
+use Spiral\Filters\Model\Filter;
+use Spiral\Filters\Model\FilterDefinitionInterface;
+use Spiral\Filters\Model\HasFilterDefinition;
+use Spiral\Validator\FilterDefinition;
 
-class DataRequest extends Filter
+class DataRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'data' => 'data:data',
-    ];
+    #[Post]
+    public array $data = [];
 
-    protected const VALIDATES = [
-        'data' => [
-            ['is_array', 'error' => '[[Data should be an array.]]', 'if' => ['withAll' => 'data']]
-        ],
-    ];
-
-    protected const SETTERS = [
-        'data' => ['self', 'toArrayIfEmpty']
-    ];
-
-    public function getData(): array
+    public function filterDefinition(): FilterDefinitionInterface
     {
-        $data = $this->getField('data');
-        return is_array($data) ? $data : [];
-    }
-
-    protected function toArrayIfEmpty($input)
-    {
-        return $input ?: [];
+        return new FilterDefinition([
+            'data' => [
+                ['is_array', 'error' => '[[Data should be an array.]]', 'if' => ['withAll' => 'data']]
+            ]
+        ]);
     }
 }

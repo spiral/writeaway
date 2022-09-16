@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace Spiral\Writeaway\Bootloader;
 
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Bootloader\Views\ViewsBootloader;
+use Spiral\Views\Bootloader\ViewsBootloader;
 
 class WriteawayViewsBootloader extends Bootloader
 {
-    protected const DEPENDENCIES = [
-        ViewsBootloader::class,
-    ];
-
-    public function boot(ViewsBootloader $views): void
+    public function init(ViewsBootloader $views): void
     {
         $views->addDirectory('writeaway', dirname(__DIR__) . '/../views');
     }

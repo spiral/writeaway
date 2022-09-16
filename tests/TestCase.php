@@ -57,7 +57,7 @@ abstract class TestCase extends BaseTestCase
             ];
 
             /** @var App $app */
-            $app = App::init($config, new Environment(['DEBUG' => true]), false);
+            $app = App::create($config)->run(new Environment(['DEBUG' => true]));
             $this->app = $app;
         }
     }

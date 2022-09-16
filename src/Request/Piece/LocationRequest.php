@@ -4,38 +4,38 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Request\Piece;
 
-use Spiral\Filters\Filter;
+use Spiral\Filters\Attribute\Input\Post;
+use Spiral\Filters\Attribute\Setter;
+use Spiral\Filters\Model\Filter;
+use Spiral\Filters\Model\FilterDefinitionInterface;
+use Spiral\Filters\Model\HasFilterDefinition;
+use Spiral\Validator\FilterDefinition;
 use Spiral\Writeaway\DTO\Location;
 
-class LocationRequest extends Filter
+class LocationRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'namespace' => 'data:namespace',
-        'view'      => 'data:view',
-    ];
+    #[Post]
+    #[Setter(filter: 'strval')]
+    public string $namespace = '';
 
-    protected const VALIDATES = [
-        'namespace' => [
-            ['is_string', 'error' => '[[Should be a string.]]', 'if' => ['withAll' => 'namespace']]
-        ],
-        'view'      => [
-            ['is_string', 'error' => '[[Should be a string.]]', 'if' => ['withAll' => 'view']]
-        ]
-    ];
-
-    protected const SETTERS = [
-        'namespace' => ['self', 'toStringIfEmpty'],
-        'view'      => ['self', 'toStringIfEmpty'],
-    ];
+    #[Post]
+    #[Setter(filter: 'strval')]
+    public string $view = '';
 
     public function location(): Location
     {
-        return new Location((string)$this->getField('namespace'), (string)$this->getField('view'));
+        return new Location($this->namespace, $this->view);
     }
 
-    protected function toStringIfEmpty($value)
+    public function filterDefinition(): FilterDefinitionInterface
     {
-        $value = (is_scalar($value) || is_null($value)) ? (string)$value : $value;
-        return $value ?: '';
+        return new FilterDefinition([
+            'namespace' => [
+                ['is_string', 'error' => '[[Should be a string.]]', 'if' => ['withAll' => 'namespace']]
+            ],
+            'view' => [
+                ['is_string', 'error' => '[[Should be a string.]]', 'if' => ['withAll' => 'view']]
+            ]
+        ]);
     }
 }

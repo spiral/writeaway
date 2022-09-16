@@ -4,22 +4,27 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Request\Image;
 
-use Spiral\Filters\Filter;
+use Spiral\Filters\Attribute\Input\Post;
+use Spiral\Filters\Attribute\Setter;
+use Spiral\Filters\Model\Filter;
+use Spiral\Filters\Model\FilterDefinitionInterface;
+use Spiral\Filters\Model\HasFilterDefinition;
+use Spiral\Validator\FilterDefinition;
 use Spiral\Writeaway\Database\Image;
 
-/**
- * @property-read int $id
- */
-class ImageRequest extends Filter
+class ImageRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'id' => 'data:id',
-    ];
+    #[Post]
+    #[Setter(filter: 'intval')]
+    public readonly int $id;
 
-    protected const VALIDATES = [
-        'id' => [
-            'notEmpty',
-            ['entity:exists', Image::class, 'error' => '[[Image not exists.]]']
-        ],
-    ];
+    public function filterDefinition(): FilterDefinitionInterface
+    {
+        return new FilterDefinition([
+            'id' => [
+                'required',
+                ['entity:exists', Image::class, 'error' => '[[Image not exists.]]']
+            ]
+        ]);
+    }
 }

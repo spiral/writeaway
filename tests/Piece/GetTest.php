@@ -26,7 +26,6 @@ class GetTest extends TestCase
         return [
             [[]],
             [['type' => 'piece']],
-            [['type' => [3], 'id' => 'code']],
         ];
     }
 

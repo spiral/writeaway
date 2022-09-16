@@ -17,11 +17,9 @@ class ImageController
 {
     use LoggerTrait;
 
-    private Images $images;
-
-    public function __construct(Images $images)
-    {
-        $this->images = $images;
+    public function __construct(
+        private Images $images
+    ) {
     }
 
     public function list(): array

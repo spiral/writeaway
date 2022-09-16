@@ -10,11 +10,7 @@ use Spiral\Writeaway\Command\DropCommand;
 
 class WriteawayCommandBootloader extends Bootloader
 {
-    protected const DEPENDENCIES = [
-        ConsoleBootloader::class,
-    ];
-
-    public function boot(ConsoleBootloader $console): void
+    public function init(ConsoleBootloader $console): void
     {
         $console->addCommand(DropCommand::class);
     }

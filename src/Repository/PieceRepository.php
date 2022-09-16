@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Repository;
 
+use Cycle\Database\Injection\Parameter;
 use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;
-use Spiral\Database\Injection\Parameter;
 use Spiral\Writeaway\Database\Piece;
 
 class PieceRepository extends Repository
