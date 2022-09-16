@@ -1,9 +1,15 @@
-PHP API server for Writeaway editor
-========
+# PHP API server for Writeaway editor
 
-License:
---------
-MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).
+[![PHP Version Require](https://poser.pugx.org/spiral/writeaway/require/php)](https://packagist.org/packages/spiral/writeaway)
+[![Latest Stable Version](https://poser.pugx.org/spiral/writeaway/v/stable)](https://packagist.org/packages/spiral/writeaway)
+[![phpunit](https://github.com/spiral/writeaway/actions/workflows/phpunit.yml/badge.svg)](https://github.com/spiral/writeaway/actions)
+[![psalm](https://github.com/spiral/writeaway/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/spiral/writeaway/actions)
+[![Codecov](https://codecov.io/gh/spiral/writeaway/branch/master/graph/badge.svg)](https://codecov.io/gh/spiral/writeaway)
+[![Total Downloads](https://poser.pugx.org/spiral/writeaway/downloads)](https://packagist.org/packages/spiral/writeaway)
+[![type-coverage](https://shepherd.dev/github/spiral/writeaway/coverage.svg)](https://shepherd.dev/github/spiral/writeaway)
+[![psalm-level](https://shepherd.dev/github/spiral/writeaway/level.svg)](https://shepherd.dev/github/spiral/writeaway)
+
+[Framework Bundle](https://github.com/spiral/framework)
 
 ## TODO
 - add tests for public services
@@ -229,3 +235,7 @@ so the meta will contain the real user's id, label and time. Example:
   "time": "current date time string"
 }
 ```
+
+## License
+
+MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).
