@@ -2,8 +2,7 @@ on:
   pull_request:
   push:
     branches:
-      - master
-      - 2.0
+      - 0.5
 
 name: static analysis
 
