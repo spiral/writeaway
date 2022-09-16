@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Writeaway;
 
-use Laminas\Diactoros\ServerRequest;
+use Nyholm\Psr7\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,9 +12,18 @@ trait HttpTrait
 {
     private function upload($uri, array $files, array $headers = [], array $cookies = []): ResponseInterface
     {
-        return $this->app->getHttp()->handle(
-            new ServerRequest([], $files, $uri, 'POST', 'php://input', $headers, $cookies)
+        $request = new ServerRequest(
+            method: 'POST',
+            uri: $uri,
+            headers: $headers,
+            body: 'php://input'
         );
+
+        $request = $request
+            ->withCookieParams($cookies)
+            ->withUploadedFiles($files);
+
+        return $this->app->getHttp()->handle($request);
     }
 
     private function post($uri, array $data = [], array $headers = [], array $cookies = []): ResponseInterface
@@ -38,6 +47,17 @@ trait HttpTrait
     ): ServerRequestInterface {
         $headers = array_merge(['accept-language' => 'en'], $headers);
 
-        return new ServerRequest([], [], $uri, $method, 'php://input', $headers, $cookies, $query);
+        $request = new ServerRequest(
+            method: $method,
+            uri: $uri,
+            headers: $headers,
+            body: 'php://input'
+        );
+
+        $request = $request
+            ->withCookieParams($cookies)
+            ->withQueryParams($query);
+
+        return $request;
     }
 }

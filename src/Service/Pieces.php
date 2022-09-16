@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\Writeaway\Service;
 
-use Cycle\ORM\TransactionInterface;
+use Cycle\ORM\EntityManagerInterface;
 use Spiral\Writeaway\Database\Piece;
 use Spiral\Writeaway\DTO;
 use Spiral\Writeaway\MetaProviderInterface;
@@ -15,18 +15,11 @@ use Spiral\Writeaway\Repository\PieceRepository;
  */
 class Pieces
 {
-    private TransactionInterface $transaction;
-    private PieceRepository $pieceRepository;
-    private MetaProviderInterface $metaProvider;
-
     public function __construct(
-        TransactionInterface $transaction,
-        PieceRepository $pieceRepository,
-        MetaProviderInterface $metaProvider
+        private EntityManagerInterface $em,
+        private PieceRepository $pieceRepository,
+        private MetaProviderInterface $metaProvider
     ) {
-        $this->transaction = $transaction;
-        $this->pieceRepository = $pieceRepository;
-        $this->metaProvider = $metaProvider;
     }
 
     public function getBulkList(DTO\PieceID ...$ids): array
@@ -53,9 +46,6 @@ class Pieces
     }
 
     /**
-     * @param Piece        $piece
-     * @param array        $data
-     * @param DTO\Location $location
      * @throws \Throwable
      */
     public function save(Piece $piece, array $data, DTO\Location $location): void
@@ -65,14 +55,12 @@ class Pieces
         $updatedLocation = $piece->addLocation($location);
 
         if ($updatedData || $updatedMeta || $updatedLocation) {
-            $this->transaction->persist($piece);
-            $this->transaction->run();
+            $this->em->persist($piece);
+            $this->em->run();
         }
     }
 
     /**
-     * @param Piece        $piece
-     * @param DTO\Location $location
      * @throws \Throwable
      */
     public function saveMeta(Piece $piece, DTO\Location $location): void
@@ -81,8 +69,8 @@ class Pieces
         $updatedLocation = $piece->addLocation($location);
 
         if ($updatedMeta || $updatedLocation) {
-            $this->transaction->persist($piece);
-            $this->transaction->run();
+            $this->em->persist($piece);
+            $this->em->run();
         }
     }
 }

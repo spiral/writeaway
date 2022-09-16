@@ -13,38 +13,31 @@ use Spiral\Writeaway\Mapper\Traits\Timestamps;
 use Spiral\Writeaway\Repository\PieceRepository;
 use Spiral\Writeaway\Typecast;
 
-/**
- * @Cycle\Entity(table="pieces", mapper=TimestampsMapper::class, repository=PieceRepository::class)
- * @Cycle\Table(indexes={@Cycle\Table\Index(columns={"name", "type"}, unique=true)})
- */
+#[Cycle\Entity(table: 'pieces', mapper: TimestampsMapper::class, repository: PieceRepository::class)]
+#[Cycle\Table(indexes: [new Cycle\Table\Index(columns: ['name', 'type'], unique: true)])]
 class Piece
 {
     use Timestamps;
 
-    /**
-     * @Cycle\Column(type="longText", typecast=Typecast\Json::class)
-     */
+    #[Cycle\Column(type: 'longText', typecast: Typecast\Json::class)]
     public Typecast\Json $data;
-    /**
-     * @Cycle\Column(type="longText", typecast=Typecast\Meta::class)
-     */
+
+    #[Cycle\Column(type: 'longText', typecast: Typecast\Meta::class)]
     public Typecast\Meta $meta;
+
     /**
-     * @Cycle\Relation\HasMany(target=Piece\Location::class)
      * @var Collection|Piece\Location[]
      */
+    #[Cycle\Relation\HasMany(target: Piece\Location::class)]
     public Collection $locations;
-    /**
-     * @Cycle\Column(type="string", primary=true)
-     */
+
+    #[Cycle\Column(type: 'string', primary: true)]
     protected string $id;
-    /**
-     * @Cycle\Column(type="string")
-     */
+
+    #[Cycle\Column(type: 'string')]
     protected string $name;
-    /**
-     * @Cycle\Column(type="string")
-     */
+
+    #[Cycle\Column(type: 'string')]
     protected string $type;
 
     public function __construct(DTO\PieceID $id)

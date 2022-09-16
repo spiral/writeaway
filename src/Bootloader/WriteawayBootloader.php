@@ -6,16 +6,19 @@ namespace Spiral\Writeaway\Bootloader;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Bootloader\Security\FiltersBootloader;
 use Spiral\Console\Bootloader\ConsoleBootloader;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\CoreInterface;
 use Spiral\Core\InterceptableCore;
+use Spiral\Cycle\Bootloader\ValidationBootloader as CycleValidationBootloader;
 use Spiral\Cycle\Interceptor\CycleInterceptor;
-use Spiral\Domain\FilterInterceptor;
 use Spiral\Router\Route;
 use Spiral\Router\RouterInterface;
 use Spiral\Router\Target\Action;
+use Spiral\Validation\Bootloader\ValidationBootloader;
+use Spiral\Validator\Bootloader\ValidatorBootloader;
 use Spiral\Writeaway\Command\DropCommand;
 use Spiral\Writeaway\Config\WriteawayConfig;
 use Spiral\Writeaway\Controller;
@@ -26,19 +29,23 @@ use Spiral\Writeaway\Service\NullMetaProvider;
 class WriteawayBootloader extends Bootloader
 {
     protected const DEPENDENCIES = [
-        ConsoleBootloader::class,
+        ValidationBootloader::class,
+        FiltersBootloader::class,
+        ValidatorBootloader::class,
+        CycleValidationBootloader::class
     ];
+
     protected const INTERCEPTORS = [
-        CycleInterceptor::class,
-        FilterInterceptor::class
+        CycleInterceptor::class
     ];
-    protected const BINDINGS     = [
+
+    protected const BINDINGS = [
         MetaProviderInterface::class => NullMetaProvider::class,
     ];
 
     private const CONFIG = WriteawayConfig::CONFIG;
 
-    public function boot(
+    public function init(
         ConfiguratorInterface $config,
         ConsoleBootloader $console,
         TokenizerBootloader $tokenizer
@@ -58,7 +65,7 @@ class WriteawayBootloader extends Bootloader
         $tokenizer->addDirectory(dirname(__DIR__) . '/Database');
     }
 
-    public function start(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
+    public function boot(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
     {
         $this->registerRoutes($core, $router, $container);
     }

@@ -16,18 +16,16 @@ class PieceController
 {
     use LoggerTrait;
 
-    private Pieces $pieces;
-
-    public function __construct(Pieces $pieces)
-    {
-        $this->pieces = $pieces;
+    public function __construct(
+        private Pieces $pieces
+    ) {
     }
 
     public function save(PieceRequest $pieceRequest, DataRequest $dataRequest, LocationRequest $locationRequest): array
     {
         $piece = $this->pieces->get($pieceRequest->id());
         try {
-            $this->pieces->save($piece, $dataRequest->getData(), $locationRequest->location());
+            $this->pieces->save($piece, $dataRequest->data, $locationRequest->location());
         } catch (\Throwable $exception) {
             $this->getLogger('default')->error('Piece update failed', compact('exception'));
             throw new ServerErrorException('Piece update failed', $exception);

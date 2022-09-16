@@ -10,7 +10,7 @@ class WriteawayConfig extends InjectableConfig
 {
     public const CONFIG = 'writeaway';
 
-    protected $config = [
+    protected array $config = [
         'permission' => '',
         'images'     => [
             'storageBucket' => '',

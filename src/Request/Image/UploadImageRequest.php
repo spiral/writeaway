@@ -5,18 +5,21 @@ declare(strict_types=1);
 namespace Spiral\Writeaway\Request\Image;
 
 use Psr\Http\Message\UploadedFileInterface;
-use Spiral\Filters\Filter;
+use Spiral\Filters\Attribute\Input\File;
+use Spiral\Filters\Model\Filter;
+use Spiral\Filters\Model\FilterDefinitionInterface;
+use Spiral\Filters\Model\HasFilterDefinition;
+use Spiral\Validator\FilterDefinition;
 
-/**
- * @property-read UploadedFileInterface $image
- */
-class UploadImageRequest extends Filter
+class UploadImageRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'image' => 'file:image',
-    ];
+    #[File]
+    public readonly UploadedFileInterface $image;
 
-    protected const VALIDATES = [
-        'image' => ['file::uploaded', 'image::valid'],
-    ];
+    public function filterDefinition(): FilterDefinitionInterface
+    {
+        return new FilterDefinition([
+            'image' => ['file::uploaded', 'image::valid']
+        ]);
+    }
 }

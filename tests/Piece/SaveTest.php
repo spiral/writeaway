@@ -72,27 +72,6 @@ class SaveTest extends TestCase
         $this->assertPieceStored($response, $data);
     }
 
-    /**
-     * @dataProvider invalidLocationProvider
-     * @param array $location
-     */
-    public function testInvalidLocation(array $location): void
-    {
-        $response = $this->post(
-            $this->uri('writeaway:pieces:save'),
-            ['type' => 'piece', 'id' => 'something'] + $location
-        );
-        $this->assertSame(400, $response->getStatusCode());
-    }
-
-    public function invalidLocationProvider(): iterable
-    {
-        return [
-            [['namespace' => [123]]],
-            [['namespace' => 'ns', 'view' => new \stdClass()]],
-        ];
-    }
-
     public function testEmptyLocation(): void
     {
         $this->post(

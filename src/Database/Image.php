@@ -10,40 +10,30 @@ use Spiral\Writeaway\Mapper\TimestampsMapper;
 use Spiral\Writeaway\Mapper\Traits\Timestamps;
 use Spiral\Writeaway\Repository\ImageRepository;
 
-/**
- * @Cycle\Entity(table="images", mapper=TimestampsMapper::class, repository=ImageRepository::class)
- */
+#[Cycle\Entity(table: 'images', mapper: TimestampsMapper::class, repository: ImageRepository::class)]
 class Image
 {
     use Timestamps;
 
-    /**
-     * @Cycle\Column(type="primary")
-     */
+    #[Cycle\Column(type: 'primary')]
     public ?int $id = null;
-    /**
-     * @Cycle\Column(type="int")
-     */
+
+    #[Cycle\Column(type: 'int')]
     public int $width;
-    /**
-     * @Cycle\Column(type="int")
-     */
+
+    #[Cycle\Column(type: 'int')]
     public int $height;
-    /**
-     * @Cycle\Column(type="int")
-     */
+
+    #[Cycle\Column(type: 'int')]
     public int $size;
-    /**
-     * @Cycle\Column(type="float")
-     */
+
+    #[Cycle\Column(type: 'float')]
     public float $ratio;
-    /**
-     * @Cycle\Column(type="text")
-     */
+
+    #[Cycle\Column(type: 'text')]
     public string $thumbnail;
-    /**
-     * @Cycle\Column(type="text")
-     */
+
+    #[Cycle\Column(type: 'text')]
     public string $original;
 
     public function pack(?Storage $storage = null): array

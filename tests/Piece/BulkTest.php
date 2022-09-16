@@ -25,7 +25,7 @@ class BulkTest extends TestCase
     {
         return [
             [[['id' => 'something']]],
-            [[['id' => ['ss'], 'type' => 't']]],
+            [[['type' => 't']]],
         ];
     }
 

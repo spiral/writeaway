@@ -9,14 +9,10 @@ use DateTimeImmutable;
 
 trait Timestamps
 {
-    /**
-     * @Cycle\Column(type="datetime", nullable=true)
-     */
+    #[Cycle\Column(type: 'datetime', nullable: true)]
     private ?DateTimeImmutable $time_created = null;
 
-    /**
-     * @Cycle\Column(type="datetime", nullable=true)
-     */
+    #[Cycle\Column(type: 'datetime', nullable: true)]
     private ?DateTimeImmutable $time_updated = null;
 
     public function getCreatedAt(): \DateTimeImmutable

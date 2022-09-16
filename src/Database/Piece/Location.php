@@ -7,22 +7,16 @@ namespace Spiral\Writeaway\Database\Piece;
 use Cycle\Annotated\Annotation as Cycle;
 use Spiral\Writeaway\DTO;
 
-/**
- * @Cycle\Entity(table="piece_locations")
- */
+#[Cycle\Entity(table: 'piece_locations')]
 class Location
 {
-    /**
-     * @Cycle\Column(type="primary")
-     */
+    #[Cycle\Column(type: 'primary')]
     public ?int $id = null;
-    /**
-     * @Cycle\Column(type="string(255)")
-     */
+
+    #[Cycle\Column(type: 'string(255)')]
     public string $namespace;
-    /**
-     * @Cycle\Column(type="string(255)")
-     */
+
+    #[Cycle\Column(type: 'string(255)')]
     public string $view;
 
     public function isSame(DTO\Location $location): bool

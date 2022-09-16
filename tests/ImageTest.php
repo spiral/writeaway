@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Writeaway;
 
-use Laminas\Diactoros\UploadedFile;
+use Nyholm\Psr7\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
 use Spiral\Storage\Storage;
 use Spiral\Writeaway\Database\Image;
