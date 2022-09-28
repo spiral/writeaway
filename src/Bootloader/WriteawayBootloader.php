@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Bootloader\Security\FiltersBootloader;
 use Spiral\Console\Bootloader\ConsoleBootloader;
+use Spiral\Router\GroupRegistry;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\CoreInterface;
@@ -15,7 +16,6 @@ use Spiral\Core\InterceptableCore;
 use Spiral\Cycle\Bootloader\ValidationBootloader as CycleValidationBootloader;
 use Spiral\Cycle\Interceptor\CycleInterceptor;
 use Spiral\Router\Route;
-use Spiral\Router\RouterInterface;
 use Spiral\Router\Target\Action;
 use Spiral\Validation\Bootloader\ValidationBootloader;
 use Spiral\Validator\Bootloader\ValidatorBootloader;
@@ -43,17 +43,16 @@ class WriteawayBootloader extends Bootloader
         MetaProviderInterface::class => NullMetaProvider::class,
     ];
 
-    private const CONFIG = WriteawayConfig::CONFIG;
-
     public function init(
         ConfiguratorInterface $config,
         ConsoleBootloader $console,
         TokenizerBootloader $tokenizer
     ): void {
         $config->setDefaults(
-            self::CONFIG,
+            WriteawayConfig::CONFIG,
             [
                 'permission' => 'writeaway.edit',
+                'routeGroup' => 'web',
                 'images'     => [
                     'storageBucket' => 'uploads',
                     'thumbnail'     => ['width' => 120, 'height' => 120]
@@ -65,13 +64,21 @@ class WriteawayBootloader extends Bootloader
         $tokenizer->addDirectory(dirname(__DIR__) . '/Database');
     }
 
-    public function boot(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
-    {
-        $this->registerRoutes($core, $router, $container);
+    public function boot(
+        CoreInterface $core,
+        GroupRegistry $groups,
+        ContainerInterface $container,
+        WriteawayConfig $config
+    ): void {
+        $this->registerRoutes($core, $groups, $container, $config->getRouteGroup());
     }
 
-    private function registerRoutes(CoreInterface $core, RouterInterface $router, ContainerInterface $container): void
-    {
+    private function registerRoutes(
+        CoreInterface $core,
+        GroupRegistry $groups,
+        ContainerInterface $container,
+        string $routeGroup
+    ): void {
         $names = [
             'writeaway:images:list',
             'writeaway:images:upload',
@@ -107,7 +114,7 @@ class WriteawayBootloader extends Bootloader
 
         foreach ($names as $name) {
             $route = new Route($patterns[$name], $actions[$name]->withCore($this->domainCore($core, $container)));
-            $router->setRoute(
+            $groups->getGroup($routeGroup)->addRoute(
                 $name,
                 $route->withMiddleware(AccessMiddleware::class)->withVerbs(...$verbs[$name])
             );

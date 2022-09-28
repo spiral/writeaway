@@ -12,6 +12,7 @@ class WriteawayConfig extends InjectableConfig
 
     protected array $config = [
         'permission' => '',
+        'routeGroup' => 'web',
         'images'     => [
             'storageBucket' => '',
             'thumbnail'     => ['width' => 0, 'height' => 0]
@@ -36,5 +37,10 @@ class WriteawayConfig extends InjectableConfig
     public function thumbnailHeight(): int
     {
         return $this->config['images']['thumbnail']['height'];
+    }
+
+    public function getRouteGroup(): string
+    {
+        return $this->config['routeGroup'];
     }
 }
